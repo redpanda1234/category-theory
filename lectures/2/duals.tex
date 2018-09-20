@@ -24,12 +24,121 @@
   First, we'll talk about about some of the hom-set stuff we didn't
   really get much time to touch on last time.
   \subsection{Hom-Sets}
-  Hi here have a hom-set
+  As as we will see, \emph{hom-sets} play a big role in understanding
+  functors. For example, calling a functor \emph{full} is equivalent
+  to it being \emph{surjective} on a particular hom-set, and similar
+  with faithful functors and injectivity.
+  \begin{definition}[Hom-set]
+    Let $\mb{C}$ be a category, and $a,b \in \ob(\mb{C})$. Then define
+    the \emph{hom-set} of $(a,b)$ by
+    \[
+      \homm_{\mb{C}}(a,b) = \set{f \mid f \in \homm(\mb{C}),\ f : a
+        \to b}.
+    \]
+  \end{definition}
+  This suggests the following (equivalent) formulation of the category
+  theory axioms:
+  \begin{leftbar}
+    {\large \bfseries Category Axioms (hom-set version)}
+    \begin{enumerate}[label=(\roman*)]
+      \item A small \emph{category} is a set of objects $a,b,c,\ldots$
+        together with
+      \item A function that assigns to each ordered pair $\ip{a,b}$ a
+        set $\homm_{\mb{C}}(a,b)$, and
+      \item A function \emph{composition} for each ordered triple
+        $\ip{a,b,c}$ with
+        \[
+          \circ : \homm_{\mb{C}}(b,c) \times \homm_{\mb C}(a,b) \to
+          \homm_{\mb C}(a,c)
+        \]
+      \item For each $b \in \ob(\mb C)$, $\homm_{\mb C}(b,b)$ contains
+        at least one element $1_b$ satisfying the ``unit'' axioms
+        (see: right / left composition by unit)
+      \item Hom-sets are pairwise disjoint. This assures $\dom, \cod$
+        are well-defined for all morphisms.
+    \end{enumerate}
+  \end{leftbar}
+  In this context, we can define a functor in terms of hom-sets:
+  \begin{definition}[Functor (redux)]
+    Let $\mc{T} : \mb{C} \to \mb{B}$ be defined with the usual object
+    functor $\mc{T}_o$, together with a collection of functions
+    \[
+      \mc{T}^{a,b} : \homm_{\mb C}(a,b) \to \homm_{\mb B}(\mc{T}_o(a),
+      \mc{T}_o(b))
+    \]
+    then $\mc{T}$ is \emph{full} when every such $\mc{T}^{a,b}$ is
+    surjective, and \emph{faithful} when injective.
+  \end{definition}
+  On to duality.
   \section{Duality}
-  We start with some definitions:
+  \subsection{Motivation}
+  Recall that last time, we defined functors between categories with
+  \[
+    \mc{T} : \mb{C} \to \mb{B}
+  \]
+  if
+  \[
+    \mc{T} =
+    \begin{cases}
+      \mc{T}_o : \ob(\mb{C}) \to \ob(\mb{B}) &  \\
+      \mc{T}_a : \homm(\mb{C}) \to \homm(\mb{B}) &
+    \end{cases}
+  \]
+  such that for all $c \in \ob(\mb{C})$, $\mc{T}(\id_c) =
+  \id_{\mc{T}_o(c)}$, and for all $f,g \in \homm(\mb{C})$, $\mc{T}_a
+  (g \circ f) = \mc{T}_a(g) \circ \mc{T}_a(f)$. However, as it turns
+  out, this is a bit of a restrictive framework --- we could imagine
+  plenty of scenarios in which we might want to study something that
+  \emph{almost} looks like a functor, except that
+  \[
+    \mc{T}_a(g \circ f) = \mc{T}_a(f) \circ \mc{T}_a(g).
+  \]
+  such an object is called a \emph{contravariant} functor, and we will
+  examine them in more depth below. But first, note the fundamental
+  similarity between the statements above --- if we had objects
+  $a,b,c$ with morphisms $f,g,h$ such that the following diagram
+  commutes,
+  \begin{figure}[H]
+    \centering
+    \tikzset{node distance=2cm, auto}
+    \begin{tikzpicture}
+      \node (a) {$a$};
+      \node (b) [below of=a] {$b$};
+      \node (c) [right of=b] {$c$};
+      \draw[-latex] (a) to node {$h = g \circ f$} (c);
+      \draw[-latex] (a) to node [swap] {$f$} (b);
+      \draw[-latex] (b) to node [swap] {$g$} (c);
+    \end{tikzpicture}
+    \caption{Example diagram}
+  \end{figure}
+  then the contravariant functor would create a diagram similar to
+  \begin{figure}[H]
+    \centering
+    \hspace{1.2cm}
+    \tikzset{node distance=2cm, auto}
+    \begin{tikzpicture}
+      \node (a) {$\mc{T}_o(a)$};
+      \node (b) [below of=a] {$\mc{T}_o(b)$};
+      \node (c) [right of=b] {$\mc{T}_o(c)$};
+      \draw[-latex] (c) to node [swap] {$\mc{T}_a(h) = \mc{T}_a(f) \circ
+        \mc{T}_a(g)$} (a);
+      \draw[-latex] (b) to node {$\mc{T}_a(f)$} (a);
+      \draw[-latex] (c) to node {$\mc{T}_a(g)$} (b);
+    \end{tikzpicture}
+    \caption{Example diagram}
+  \end{figure}
+  certainly these two structures should be thought of as ``similar''
+  in some sense --- if there's any justice in the world, we might even
+  expect that some theorems we prove about functors in general will
+  translate into guarantees about these so-called ``contravariant
+  functors.'' Indeed, this is the case: but to make it formal, we need
+  to introduce the idea of \emph{duality}, which will prove
+  surprisingly powerful.
+  \subsection{Basic definitions}
+  As you should now expect, we'll build up from axioms:
   \begin{definition}[Atomic Statements]
-    Let $\mc{C}$ be a category. Then if $a,b \in \ob(\mc{C})$, $f,g
-    \in \homm(\mc{C})$, an \emph{atomic statement} is a statement of
+    Let $\mb{C}$ be a category. Then if $a,b \in \ob(\mb{C})$, $f,g
+    \in \homm(\mb{C})$, an \emph{atomic statement} is a statement of
     the form:
     \begin{enumerate}
       \item $a = \dom(f)$ or $b = \cod(f)$
@@ -39,34 +148,100 @@
     That is, an atomic statement is just a statement about the
     axiomatic properties of categories.
   \end{definition}
-  From these, we can build phrases of \emph{statements} in $\Sigma$,
-  using the formal grammar defined by propositional logic.
+  From these, we can build phrases of \emph{statements} using the
+  formal grammar defined by propositional logic.
   \begin{definition}[Sentences]
     A \emph{sentence} is a statement (see above) in which we have no
     free variables; that is every variable is ``bound'' or
     ``defined.'' For instance, the statement ``for all $f \in
     \homm(\mc{C})$ there exists $a,b \in \ob(\mc{C})$ with $f : a \to
-    b$'' forms a sentence, while ``For all $b$, $f : a \to b$'' does
-    not. In the latter, we can't be sure what $a,f$ are referring to.
+    b$'' forms a sentence, while ``$f : a \to b$'' is an extreme case
+    of one that does not (in the latter, we have no idea what any of
+    the variables are actually referring to). In the context of
+    category theory, the collection of sentences built out of atomic
+    statements are known as \emph{ETAC} (``the elementary theory of an
+    abstract category'').
   \end{definition}
-  Test of theorem
-  \begin{theorem}
-    Let $\mc{B}, \mc{C}$, and $\mc{D}$ be categories. For all objects
-    $c \in \ob(\mc{C})$ and $b \in \ob(\mc{B})$, let
+  Now, we introduce the concept of \emph{duality}:
+  \begin{definition}[Duality]
+    Let $\Sigma$ be a statement of ETAC. Then the \emph{dual} of
+    $\Sigma$ is intuitively the statement ``in reverse,'' and is
+    typically denoted by $\Sigma^*$. This can be formalized as simply
+    flipping every ``domain'' statement into a ``codomain'' statement,
+    and replacing ``$h = g \circ f$'' with ``$h = f \circ g$.'' Some
+    examples of duals are given below:
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{@{}lll@{}}
+        \toprule
+        Statement $\Sigma$ && Dual Statement $\Sigma^*$ \\ \midrule
+        $f : a \to b$ && $f : b \to a$  \\
+        $a = \dom(f)$ && $a = \cod(f)$ \\
+        $i = \id_a$ && $i = \id_a$ \\
+        $h = g \circ f$ && $h = f \circ g$ \\
+        $f$ is monic && $f$ is epic \\
+        $u$ is a right inverse of $h$ && $u$ is a left inverse of $h$
+        \\
+        $f$ is invertible && $f$ is invertible \\
+        $t$ is a terminal object && $t$ is an initial object\\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+  \end{definition}
+  Note that $\Sigma** = \Sigma$, and that if we prove some theorem
+  about a statement $\Sigma$, the dual statement $\Sigma^*$ can be
+  proven as well.
+  \subsection{Contravariance and Opposites}
+  We might ask ourselves: what happens if we dual \emph{every}
+  statement in $\mb{C}$? What would some of the resulting objects'
+  properties be? This is the focus of the next section.
+  \begin{definition}[Dual Category]
+    Let $\mb{C}$ be a category. Then call $\mb C^*$ (also denoted
+    $\mb C\op$) the \emph{dual} or \emph{opposite} category iff for
+    each statement $\Sigma$ about $\mb C$, $\Sigma^*$ holds about $\mb
+    C^*$.
+  \end{definition}
+  This results in the following properties:
+  \begin{leftbar}
+    {\large \bfseries Properties of the Dual Category}
+    \begin{enumerate}[label=\arabic*)]
+      \item $\mb C$ and $\mb C^*$ have the same objects.
+      \item We can put each $f \in \homm(\mb C)$ into a one-to-one
+        relationship with $f^* \in \homm(\mb C^*)$.
+      \item For each $f \in \homm(\mb C)$, $\dom(f) = \cod(f^*)$, and
+        $\cod(f) = \dom(f^*)$.
+      \item For composable $g,f$, $(g \circ f)^* = f^* \circ g^*$.
+      \item If $\Sigma^*$ is true in $\mb C$, then $\Sigma$ is true in
+        $\mb C^*$.
+    \end{enumerate}
+  \end{leftbar}
+  \begin{theorem}[Covariant functors]
+    Let $\mb C, \mb B$ be categories, and $\mc T : \mb C \to \mb B$.
+    Then if we define $\mc{T}^*$ by
     \[
-      \mc{L}_{c} : \mc{B} \to \mc{D}, \qquad \mc{M}_b : \mc{C} \to
-      \mc{D}
+      \mc{T}^*(f^*) = (\mc{T} (f))^*
+    \]
+    then $\mc{T}^*$ is \emph{covariant}
+  \end{theorem}
+  \subsection{Products of Categories}
+  hi
+  \begin{theorem}
+    Let $\mb{B}, \mb{C}$, and $\mb{D}$ be categories. For all objects
+    $c \in \ob(\mb{C})$ and $b \in \ob(\mb{B})$, let
+    \[
+      \mc{L}_{c} : \mb{B} \to \mb{D}, \qquad \mc{M}_b : \mb{C} \to
+      \mb{D}
     \]
     be functors such that $\mc{M}_b(c) = \mc{L}_c(b)$ for all $b$ and
-    $c$. Then there exists a bifunctor $\mc{S} : \mc{B} \times \mc{C}
-    \to \mc{D}$ with $S(-, c) = \mc{L}_c$ for all $c$ and $S(b, -) =
+    $c$. Then there exists a bifunctor $\mc{S} : \mb{B} \times \mb{C}
+    \to \mb{D}$ with $S(-, c) = \mc{L}_c$ for all $c$ and $S(b, -) =
     \mc{M}_b$ for all $b$ if and only if for every pair of arrows $f :
     b \to b'$ and $g : c \to c'$ one has
     \begin{equation}
       \mc{M}_{b'}(g) \circ \mc{L}_c(f) = \mc{L}_{c'}(f) \circ
       \mc{M}_b(g) \label{eq:tbd}
     \end{equation}
-    These equal arrows \ref{eq:tbd} in $\mc{D}$ are then the value
+    These equal arrows \ref{eq:tbd} in $\mb{D}$ are then the value
     $\mc{S}(f,g)$ of the arrow function of $\mc{S}$ at $f$ and $g$.
   \end{theorem}
 \end{adjustwidth}
