@@ -1,0 +1,75 @@
+\documentclass[nocover]{pset}
+\usepackage{tikz-cd}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Forest Kobayashi}
+\chead{Basic Category Theory}
+\rhead{Math 196 -- Fall, 2018}
+\rfoot{\thepage\ of \pageref{LastPage}}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{10pt}
+\lfoot{Thursday, September 20th 2018}
+
+\begin{document}
+
+\begin{center}
+  {\scshape \huge Duality in Category Theory}
+
+  {\scshape Lecture 2}
+\end{center}
+\vspace{-.1cm}
+\hrulefill
+\begin{adjustwidth}{1em}{1em}
+  \section{Introduction}
+  First, we'll talk about about some of the hom-set stuff we didn't
+  really get much time to touch on last time.
+  \subsection{Hom-Sets}
+  Hi here have a hom-set
+  \section{Duality}
+  We start with some definitions:
+  \begin{definition}[Atomic Statements]
+    Let $\mc{C}$ be a category. Then if $a,b \in \ob(\mc{C})$, $f,g
+    \in \homm(\mc{C})$, an \emph{atomic statement} is a statement of
+    the form:
+    \begin{enumerate}
+      \item $a = \dom(f)$ or $b = \cod(f)$
+      \item $\id_a$ is the identity map on $a$
+      \item $g$ can be composed with $f$ to yield $h = g \circ f$.
+    \end{enumerate}
+    That is, an atomic statement is just a statement about the
+    axiomatic properties of categories.
+  \end{definition}
+  From these, we can build phrases of \emph{statements} in $\Sigma$,
+  using the formal grammar defined by propositional logic.
+  \begin{definition}[Sentences]
+    A \emph{sentence} is a statement (see above) in which we have no
+    free variables; that is every variable is ``bound'' or
+    ``defined.'' For instance, the statement ``for all $f \in
+    \homm(\mc{C})$ there exists $a,b \in \ob(\mc{C})$ with $f : a \to
+    b$'' forms a sentence, while ``For all $b$, $f : a \to b$'' does
+    not. In the latter, we can't be sure what $a,f$ are referring to.
+  \end{definition}
+  Test of theorem
+  \begin{theorem}
+    Let $\mc{B}, \mc{C}$, and $\mc{D}$ be categories. For all objects
+    $c \in \ob(\mc{C})$ and $b \in \ob(\mc{B})$, let
+    \[
+      \mc{L}_{c} : \mc{B} \to \mc{D}, \qquad \mc{M}_b : \mc{C} \to
+      \mc{D}
+    \]
+    be functors such that $\mc{M}_b(c) = \mc{L}_c(b)$ for all $b$ and
+    $c$. Then there exists a bifunctor $\mc{S} : \mc{B} \times \mc{C}
+    \to \mc{D}$ with $S(-, c) = \mc{L}_c$ for all $c$ and $S(b, -) =
+    \mc{M}_b$ for all $b$ if and only if for every pair of arrows $f :
+    b \to b'$ and $g : c \to c'$ one has
+    \begin{equation}
+      \mc{M}_{b'}(g) \circ \mc{L}_c(f) = \mc{L}_{c'}(f) \circ
+      \mc{M}_b(g) \label{eq:tbd}
+    \end{equation}
+    These equal arrows \ref{eq:tbd} in $\mc{D}$ are then the value
+    $\mc{S}(f,g)$ of the arrow function of $\mc{S}$ at $f$ and $g$.
+  \end{theorem}
+\end{adjustwidth}
+
+
+\end{document}
