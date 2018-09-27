@@ -416,7 +416,14 @@
     \times \mb C \to \mb D$. Then $\mc S$ is called a
     \emph{bifunctor}.
   \end{definition}
+  Simply put, a bifunctor is just a functor of two arguments.
 
+  Let $\mc S$ be the bifunctor given in the definition above. Then if
+  we fix one of its arguments, we get something that is effectively a
+  single-argument functor, similarly to how fixing an argument of a
+  two-variable function yields something that's ``effectively'' a
+  single-variable function. This process is described by the following
+  theorem:
   \begin{theorem}
     Let $\mb{B}, \mb{C}$, and $\mb{D}$ be categories. For all objects
     $c \in \ob(\mb{C})$ and $b \in \ob(\mb{B})$, let
@@ -436,6 +443,7 @@
     These equal arrows \ref{eq:tbd} in $\mb{D}$ are then the value
     $\mc{S}(f,g)$ of the arrow function of $\mc{S}$ at $f$ and $g$.
   \end{theorem}
+
 \end{adjustwidth}
 
 
