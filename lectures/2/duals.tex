@@ -188,7 +188,7 @@
       \end{tabular}
     \end{table}
   \end{definition}
-  Note that $\Sigma** = \Sigma$, and that if we prove some theorem
+  Note that $\Sigma^{**} = \Sigma$, and that if we prove some theorem
   about a statement $\Sigma$, the dual statement $\Sigma^*$ can be
   proven as well.
   \subsection{Contravariance and Opposites}
@@ -215,16 +215,208 @@
         $\mb C^*$.
     \end{enumerate}
   \end{leftbar}
-  \begin{theorem}[Covariant functors]
-    Let $\mb C, \mb B$ be categories, and $\mc T : \mb C \to \mb B$.
-    Then if we define $\mc{T}^*$ by
-    \[
-      \mc{T}^*(f^*) = (\mc{T} (f))^*
-    \]
-    then $\mc{T}^*$ is \emph{covariant}
+  Recall our definition of contravariant functors on page 2. The
+  important quality that we saw with contravariant functors was that
+  they \emph{reverse the order} of morphism composition. One might
+  note that this sounds an awful lot like a dual property --- and
+  indeed, there is a connection here. We examine this in the theorem
+  below.
+  \begin{theorem}[Contravariant functors and duality]
+    Let $\mb C, \mb B$ be categories, and let $T : \mb C \to \mb B$ be
+    a contravariant functor. Then $T$ can be expressed as a covariant
+    functor from $\mb C^* \to \mb B$
   \end{theorem}
+  \begin{proof}
+    Let $a,b,c \in \ob(\mb C)$, and let $f : a \to b$, $g : b \to c$.
+    Then if $\mc T : \mb C \to \mb B$ is a contravariant functor, let
+    $\ol{\mc T} : \mb C^* \to \mb B$ be defined by
+    \[
+      \mc T f = \ol{\mc T} f^*
+    \]
+    for all $f \in \homm(\mb C)$. Then note that
+    \begin{align*}
+      \mc T(g \circ f)
+      &= \ol{\mc T} ((g \circ f)^*) \\
+      \mc T(f) \circ \mc T(g)
+      &= \ol{\mc T} (f^* \circ g^*) \\
+      &= \ol{T}(f^*) \circ \ol{T}(g^*)
+    \end{align*}
+    thus, $\ol{\mc T}$ is a covariant functor from $\mb C^*$ to $\mb
+    B$.
+  \end{proof}
+  similarly, by the principle of duality, any covariant functor from
+  $\mb C \to \mb B$ can be thought of as a contravariant functor from
+  $\mb C^* \to \mb B$.
+
+  We look at an interesting example:
+  \begin{definition}[Hom-functors]
+    Let $\mb C$ be a category with small hom-sets. Then since each
+    hom-set is small, for every $a \in \ob(\mb C)$, define the
+    \emph{covariant hom-functor}
+    \[
+      \homm_{\mb C}(a, -): \mb C \to \textbf{Set}
+    \]
+    such that the object function gives
+    \[
+      b \mapsto \homm_{\mb C}(a,b)
+    \]
+    and arrow function
+    \[
+      \bk{k : b \to b'} \mapsto \bk[Big]{\homm_{\mb C}(a,k) :
+        \homm_{\mb C}(a,b) \to \homm_{\mb C}(a, b')}
+    \]
+    where the RHS of the above is defined by $f \mapsto k \circ f$ for
+    each $f : a \to b$. Since the notation above is cumbersome,
+    MacLane suggests instead using $k_\star$ (``composition with $k$ on
+    the left'', or ``the map induced by $k$'').
+
+    Similarly, we define the \emph{contravariant hom-functor} by, for
+    each $b \in \ob{\mb C}$,
+    \[
+      \homm_{\mb C}(-,b) : \mb C^* \to \textbf{Set}
+    \]
+    with arrow function
+    \[
+      \bk{g : a \to a'} \mapsto \bk[Big]{\homm_{\mb C}(g, b) :
+        \homm_{\mb C}(a',b) \to \homm_{\mb C}(a, b)}
+    \]
+    defined by $f \mapsto f \circ g$. Again, omitting $b$, this is
+    often written as $g^\star$. In summary,
+    \[
+      k_\star f = k \circ f \qquad g^\star f = f \circ g
+    \]
+    and the following diagram commutes.
+    \begin{figure}[H]
+      \centering
+      \tikzset{node distance=3cm, auto}
+      \begin{tikzpicture}
+        \node (a) {$\homm_{\mb C}(a', b)$};
+        \node (b) [right of=a] {$\homm_{\mb C}(a,b)$};
+        \node (c) [below of=a] {$\homm_{\mb C}(a',b')$};
+        \node (d) [below of=b] {$\homm_{\mb C}(a,b')$};
+        \draw[-latex] (a) to node [swap] {$k^\star$} (c);
+        \draw[-latex] (a) to node {$g_\star$} (b);
+        \draw[-latex] (b) to node {$k_\star$} (d);
+        \draw[-latex] (c) to node {$g^\star$} (d);
+      \end{tikzpicture}
+    \end{figure}
+  \end{definition}
+
   \subsection{Products of Categories}
-  hi
+  We define the category analog of the cartesian product:
+  \begin{definition}[Product of Categories]
+    Let $\mb B, \mb C$ be categories. We construct the \emph{product}
+    of $\mb B$ and $\mb C$ as follows:
+    \[
+      \ob(\mb B \times \mb C) = \ob(\mb B) \times \ob(\mb C)
+    \]
+    and
+    \[
+      \homm\pn{\mb B \times \mb C} = \homm\pn{\mb B} \times
+      \homm\pn{\mb C}.
+    \]
+    composition is defined in the obvious manner. For all pairs of
+    objects $\ip{b.c}$, $\ip{b', c'}$, $\ip{b'', c''}$, and pairs of
+    arrows $\ip{f : b \to b',g : c \to c'}$, $\ip{f' : b' \to b'', g'
+      : c' \to c''}$, then if
+    \[
+      \ip{b,c} \xrightarrow{\ip{f,g}} \ip{b',c'}
+      \xrightarrow{\ip{f',g'}} \ip{b'', c''}
+    \]
+    then we write
+    \[
+      \ip{f',g'} \circ \ip{f,g} = \ip{f' \circ f, g' \circ g}
+    \]
+  \end{definition}
+  We can define \emph{projection} functors in the obvious manner as
+  well:
+  \begin{definition}
+    Consider functors $P,Q$ with
+    \[
+      P : \mb B \times \mb C \to \mb B \qquad Q : \mb B \times \mb C
+      \to \mb C
+    \]
+    such that, for all $\ip{f,g} \in \ob(\mb{B \times C}), \homm(\mb{B
+    \times C})$,
+    \[
+      P\ip{f,g} = f, \qquad Q\ip{f,g} = g.
+    \]
+  \end{definition}
+  Here, we will see the first of many descriptions of a ``universal''
+  property.
+  \begin{theorem}[Look-ahead]
+    Let $\mb D$ be a category, and $\mc R$, $\mc T$ be any two
+    functors with $\mc R : D \to B$, $\mc T : \mb D \to \mb C$. Then
+    $\exists! \mc F : \mb D \to \mb B \times \mb C$ such that the
+    following diagram commutes:
+    \begin{figure}[H]
+      \centering
+      \tikzset{node distance=2.5cm, auto}
+      \begin{tikzpicture}
+        \node (d) {$\mb D$};
+        \node (bc) [below of=d] {$\mb B \times \mb C$};
+        \node (b) [left of=bc] {$\mb B$};
+        \node (c) [right of=bc] {$\mb C$};
+        \draw[-latex] (d) -- (b) node[midway, left, xshift=-.25em] {$\mc R$};
+        \draw[-latex] (d) -- (c) node[midway, right, xshift=.25em] {$\mc T$};
+        \draw[-latex, dotted] (d) -- (bc) node[midway, right]
+        {$\mc F$};
+        \draw[-latex] (bc) -- (c) node[midway, above left] {$\mc Q$};
+        \draw[-latex] (bc) -- (b) node[midway, above right] {$\mc P$};
+      \end{tikzpicture}
+      \caption{Uniqueness of inclusion}
+    \end{figure}
+  \end{theorem}
+  \begin{proof} (Sketch) For the diagram to commute, for all $h \in
+    \homm(\mb D)$, we must have $\mc F = \ip{\mc R h, \mc T h}$. The
+    universality follows pretty trivially.
+  \end{proof}
+  Similarly to products of categories, we define products of functors:
+  \begin{definition}[Functor products]
+    Let $\mc U : \mb B \to \mb B'$, $\mc V \to \mb C \to \mb C'$. Then
+    we say $\mc U$ and $\mc V$ have a product $\mc U \times \mc V :
+    \mb B \times \mb C \to \mb B' \times \mb C'$ if
+    \[
+      (\mc U \times \mc V)_o(\ip{b,c}) = \ip{\mc U_o a, \mc V_o b} \qquad
+      (\mc U \times \mc V)_a(\ip{f,g}) = \ip{\mc U_a f, \mc V_a g}
+    \]
+    equivalently described by the following commutative diagram:
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \node (b) at (-2.5,1) {$\mb B$};
+        \node (bc) at (0,1) {$\mb{B \times C}$};
+        \node (c) at (2.5,1) {$\mb C$};
+        \node (bp) at (-2.5,-1) {$\mb B'$};
+        \node (bcp) at (0,-1) {$\mb{B' \times C'}$};
+        \node (cp) at (2.5,-1) {$\mb C'$};
+        \draw[-latex] (b) -- (bp) node[midway, left] {$\mc U$};
+        \draw[-latex, dotted] (bc) -- (bcp) node[midway, right] {$\mc
+          U \times \mc V$};
+        \draw[-latex] (c) -- (cp) node[midway, right] {$\mc V$};
+        \draw[-latex] (bc) -- (c) node[midway, above] {$\mc Q$};
+        \draw[-latex] (bc) -- (b) node[midway, above] {$\mc P$};
+        \draw[-latex] (bcp) -- (cp) node[midway, above] {$\mc Q'$};
+        \draw[-latex] (bcp) -- (bp) node[midway, above] {$\mc P'$};
+      \end{tikzpicture}
+      \caption{Functor products}
+    \end{figure}
+  \end{definition}
+  Note that since functors are morphisms on categories, then $\times$
+  itself is a functor on small categories:
+  \[
+    \times : \mb{Cat} \times \mb{Cat} \to \mb{Cat}.
+  \]
+  In the above section, we've concerned ourself with functors mapping
+  from a category to a product category (e.g., $\mc F : \mb D \to
+  \mb{B \times C}$). We will now examine the ``dual'' concept, that
+  functors from a product category to a category.
+  \begin{definition}[Bifunctor]
+    Let $\mb B$, $\mb C$, $\mb D$ be categories. Let $\mc S : \mb B
+    \times \mb C \to \mb D$. Then $\mc S$ is called a
+    \emph{bifunctor}.
+  \end{definition}
+
   \begin{theorem}
     Let $\mb{B}, \mb{C}$, and $\mb{D}$ be categories. For all objects
     $c \in \ob(\mb{C})$ and $b \in \ob(\mb{B})$, let
