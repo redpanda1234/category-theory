@@ -1,0 +1,200 @@
+\documentclass[nocover]{pset}
+\usepackage{tikz-cd}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Forest Kobayashi}
+\chead{Basic Category Theory}
+\rhead{Math 196 -- Fall, 2018}
+\rfoot{\thepage\ of \pageref{LastPage}}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{10pt}
+\lfoot{Thursday, October 4th 2018}
+
+\usepackage[normalem]{ulem} % [normalem] prevents the package from
+                            % changing the default behavior of `\emph`
+                            % to underline.
+
+\titleformat{\section}
+  {\LARGE \scshape}{\thesection.}{.5em}{\vspace{.5em}}
+
+\titleformat{\subsection}
+  {\Large \scshape}{\thesubsection.}{.5em}{}
+
+\tikzstyle{titlerule}=[dash pattern=on \pgflinewidth off 2pt]
+\usetikzlibrary{decorations.markings}
+
+\newcommand{\wah}[1]{
+  \tikz[decoration={markings, mark=between positions 0 and 1 step 3pt
+    with { \draw [fill] (0,0) circle [radius=.5pt];}},
+  baseline=(todotted.base)]{
+  \node[inner sep=0pt,outer sep=0pt] (todotted) {#1};
+  \path[postaction={decorate}] (todotted.south west) --
+  (todotted.south east);}
+}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[titlerule] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\usepackage{caption}
+
+\begin{document}
+
+\begin{center}
+  {\scshape \Large Basic Algebraic Topology}
+
+  {\itshape Based on Notes by Sergey Matveev}
+\end{center}
+\vspace{-.1cm}
+\hrulefill
+\section{Introduction}
+\begin{adjustwidth}{1em}{1em}
+  First, a motivating quote.
+  \begin{quote}
+    ``Point set topology is a disease from which later generations
+    will regard themselves as having recovered'' -Henri Poincar\'{e}
+  \end{quote}
+  As it turns out, lots of topics in topology can be simplified by
+  attaching algebraic constructs to different topological spaces, and
+  proving that certain properties of our group (or what have you)
+  correspond naturally to properties of our topological space. The
+  vehicle by which we navigate between the two is, as one might
+  expect, Category Theory. First, we give a brief summary of
+  basic concepts in point-set topology, before moving into the
+  Homology Theory presentation given in Matveev.
+
+  \subsection{Basic Point-Set Topology}
+  As in most branches of mathematics, our object of study here will be
+  some collection of sets, together with some \emph{structure} we can
+  associate with them. In Elementary Algebra, this takes the form of
+  \emph{group} and \emph{ring} operations, and later the respective
+  homomorphisms preserving them. In Elementary Analysis, it (loosely
+  speaking) took the form of a \emph{distance metric}, and the
+  properties it bestowed on sets. Analogous to our study of
+  homomorphisms in Algebra, we often studied \emph{continuous
+    functions} in Analysis, and the properties of sets that they
+  preserved. Note the resemblance between the two expressions:
+  \begin{minipage}[H]{.49\linewidth}
+    \begin{figure}[H]
+      \centering
+      \[
+        \varphi(g_1 \oplus g_2) = \varphi(g_1) \otimes \varphi(g_2)
+      \]
+      \caption*{A homomorphism $\varphi : G \to H$}
+    \end{figure}
+  \end{minipage}
+  \begin{minipage}[H]{.49\linewidth}
+    \begin{figure}[H]
+      \centering
+      \[
+        d(x,y) < \delta \implies d'(f(x), f(y)) < \varepsilon
+      \]
+      \caption*{A continuous function $f : (E,d) \to (E', d')$}
+    \end{figure}
+  \end{minipage}
+
+  while the analogy doesn't hold exactly, in both cases, we have some
+  particular class of functions such that structure in one space is
+  preserved in the image. In the case of homomorphisms, the group
+  operation in the first group is ``respected'' by the homomorphism
+  upon mapping into the second. In the case of continuous functions,
+  our equation is essentially stating that we don't ``tear'' our
+  starting space at all. This is best visualized by thinking about our
+  continuous functions not as their \emph{graphs} (as we are often
+  used to), but rather as \emph{maps} that deform the input domain in
+  various manners to yield the image. As an example, one might think
+  of the function $f(x) = x^2$ as the action of folding $\RR$ on
+  itself, and stretching the edges out towards infinity (this is often
+  a strategy employed in visualizing complex-valued functions).
+
+  One might wonder what sorts of interesting discoveries we could make
+  by generalizing our starting premises on the right-hand-side, so
+  that we could make our questions more similar to those on the left.
+  That is, similarly to how we defined distance metrics so as to
+  generalize the \emph{key} properties of Euclidean distance, so too
+  will we generalize the idea of \emph{continuity of a function}. This
+  is the central idea of basic topology. Now, all we need is a good
+  place to start. Recall the following theorem of Analysis:
+  \begin{definition}
+    Let $(E,d)$ and $(E', d')$ be metric spaces. Then a function $f :
+    E \to E'$ is said to be \emph{continuous} iff for all open sets $U
+    \subseteq M_2$, we have $f^{-1}(U) \text{ is open in } M_1$
+  \end{definition}
+  Of course, this makes no guarantees about the image of an open set
+  being open in the codomain. Really, we can make our image as
+  ``jagged'' as we want (within reason), provided we fold and deform
+  our domain in a smooth way. But it does indicate to us open sets
+  appear to be intimately tied to the idea of ``smooth'' deformations
+  --- and that it might be fruitful to pursue an understanding of our
+  space that does not depend on the details of a particular metric,
+  but rather just on relationships between open sets. Hence, we define
+  a topology as follows:
+  \begin{definition}
+    Let $X$ be a set, and let $\mc U$ be a collection of subsets of
+    $X$ satisfying the following:
+    \begin{enumerate}[label=(\roman*)]
+      \item $\varnothing \in \mc U$, $X \in \mc U$.
+      \item For all $U_1, U_2 \in U$, $U_1 \cap U_2 \in \mc U$
+        (closure under finite intersections).
+      \item For any subset $\set{U_i \mid i \in I} \subseteq \mc U$,
+        we have
+        \[
+          \bigcup_{i \in I} U_i = \bm{U} \in \mc U \qquad
+          \text{(closure under arbitrary unions)}
+        \]
+    \end{enumerate}
+    then $\mc U$ is called a \emph{topology} for $X$, and $(X, \mc U)$
+    is called a \emph{topological space}. We call the elements of $\mc
+    U$ the \emph{open sets of} $(X, \mc U)$.
+  \end{definition}
+  note that a topology is thus a particular kind of \emph{algebra of
+    sets} under the binary operations $\cup, \cap$, with identity
+  $\varnothing$ for $\cup$, and $X$ for $\cap$. Note that $(\cup,
+  \varnothing)$, $(\cap, X)$ are duals of each other, in the sense
+  that for any sentence $S$ built out of atomic propositions of our
+  set algebra, if $S$ is true, then the statement we obtain by
+  \begin{enumerate}[label=\arabic*.]
+    \item Replacing each $\cup$ with $\cap$ and each $\cap$ with
+      $\cup$,
+    \item Interchanging each $\varnothing$ and $X$, and
+    \item Reversing inclusions
+  \end{enumerate}
+  must also be true. Note that if we replace ``arbitrary unions'' with
+  ``countable unions'', and further require closure under
+  complementation, then we obtain a $\sigma$-algebra.
+
+  As it turns out, this definition of a topology is more general than
+  that given by distance metrics. Whereas every distance metric gives
+  rise to a topology, there are topologies that are not
+  \emph{metrizable}, meaning they do not arise from any metric on a
+  set. We list a few common topologies. Let $(X, \mc U)$ be a
+  topological space. Then
+  \begin{enumerate}[label=\arabic*.]
+    \item If $\mc U = \set{\varnothing, X}$, we call $\mc U$ the
+      \emph{concrete} or \emph{indiscrete topology}.
+    \item If $\mc U = \mc P(X)$ (i.e., every subset of $X$ is open),
+      then we call $\mc U$ the \emph{discrete topology}. Note the
+      analog to the discrete metric.
+    \item Suppose $\mc U = \set{\varnothing, X} \cup \set{U \subseteq
+        X \MID \abs{\ol{U}} < \infty}$. That is, $X, \varnothing$, and
+      all subsets of $X$ with finite compliment. Then call $\mc U$ the
+      \emph{finite complement topology}.
+    \item
+  \end{enumerate}
+  our definition of continuity follows identically to in a metric
+  space:
+  \begin{definition}
+    A function $f : X \to Y$ between two topological spaces is said to
+    be \emph{continuous} if for every oepn set $U \subset Y$, the
+    inverse image $f^{-1}(U)$ is open in $X$. The same holds for
+    closed subsets. Continuous functions are composable to yield
+    another continuous function. If $f$ is bijective with a continuous
+    inverse, then call $f$ a \emph{homeomorphism}.
+  \end{definition}
+
+\end{adjustwidth}
+
+\end{document}
