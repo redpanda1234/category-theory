@@ -3,7 +3,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{Forest Kobayashi}
-\chead{Basic Category Theory}
+\chead{Algebraic Topology}
 \rhead{Math 196 -- Fall, 2018}
 \rfoot{\thepage\ of \pageref{LastPage}}
 \setlength{\headheight}{15.2pt}
@@ -91,6 +91,17 @@
 \end{center}
 \vspace{-.1cm}
 \hrulefill
+
+\begin{center}
+  \begin{minipage}[H]{.4\linewidth}
+  (Sung to the tune of \emph{Time in a Bottle}) \\
+  If I could save Klein in a Bottle \\
+  The first thing that I'd like to glue\\\
+  Is an edge to an edge\\
+  Of a projective plane and then $\#$ \\
+  With another $P2$
+  \end{minipage}
+\end{center}
 \section{Introduction}
 \begin{adjustwidth}{1em}{1em}
   First, a motivating quote.
@@ -182,12 +193,8 @@
   of as a \emph{theorem}. There's just one catch: if we really want to
   discard the metric, how are we going to define the notion of an
   ``open'' set? Topologies provide the answer.
-  % --- and that it might be fruitful to pursue an understanding of our
-  % space that does not depend on the details of a particular metric,
-  % but rather just on relationships between open sets.
-
-  % Hence, we define
-  % a topology as follows:
+  \subsection{Onwards to Algebraic Topology}~
+  \vspace{-.75em}
   \begin{definition}
     Let $X$ be a set, and let $\mc U$ be a collection of subsets of
     $X$ satisfying the following:
@@ -300,7 +307,7 @@
   \end{enumerate}
   Analogously to the interior of a set, we define its closure. Note
   closure is, in a sense, the dual of the interior
-  operator. \clearpage
+  operator.
   \begin{definition}
     Let $(X, \mc U)$ be a topological space. Let $Y \subseteq X$. Then
     let
@@ -459,7 +466,7 @@
     opens sets of $S$ are open in $X$. The proof follows directly from
     the definition of induced topology.
   \end{theorem}
-  \subsection{Quotient Topology}
+  \subsection{Quotient and Product spaces}
   Whereas the induced topology can be thought of as arising from an
   injetive map $\iota : S \to X$, we will now consider the topology
   arising from a surjective map $q : X \to Y$.
@@ -503,10 +510,63 @@
     equivalence classes of $X$ under $\sim$ is usually denoted
     $X/\sim$.
   \end{definition}
+  For $f : X \to X/\sim$ defined by $f(x) = [x]$, then $X / \sim$
+  together with the quotient topology is said to be ``obtained from
+  $X$ by topological identification.''
 
-  % It is easy to verify that for $(X,\mc U)$ a topological space, $Y$ a
-  % set, and $f : X \to Y$, $f$ defines an equivalence relation by $f(x)
-  % = [x]$
+  There is one other way in which we can think about quotient spaces.
+  Consider an action on a topological space by a group $G$. Then
+  define the equivalence relation $x \sim y \iff y \in \mc{O}_{X}(x)$
+  (i.e., they are in the same orbit under the action). Then we can
+  give $X/G$ the quotient topology.
+
+  At this point, we've considered various methods of constructing
+  topological spaces from existing ones. In the induced topology, we
+  thought of giving a set with no structure of its own additional
+  structure by including it in a large topological space. In the
+  quotient topology, we found ways of taking the structure of a
+  topological space and imposing it on some other set. Now, we
+  consider the construction in which we have \emph{two} topological
+  spaces, and we want to construct a new one from the two.
+
+  \begin{definition}
+    Let $(X, \mc U), (Y, \mc V)$ be topological spaces. Define the
+    topological product $X \times Y$ by $(X \times Y,\ \mc U \otimes
+    \mc V)$, where
+    \[
+      \mc U \otimes \mc V = \set{\bigcup_{i \in I} W_i \MID i \in I,\
+        \text{and}\ W_i \in \mc U \times \mc V}
+    \]
+    that is, the closure under union of all products of open sets in
+    $X$ and $Y$.
+  \end{definition}
+
+  \subsection{Compactness and Hausdorffness}
+  In analysis, a central question was ``what properties of our spaces
+  are preserved under continuous functions?'' To this, we answered
+  Completeness, Connectedness, and (in some cases) compactness. Now,
+  we'll perform the analogous identification for homeomorphisms. But
+  first, we need to define the actual properties we want to prove the
+  invariance of. First comes compactness, which I like to think of as
+  ``the next-best thing to being finite.''
+  \begin{definition}[Covers]
+    Let $X$ a set, and let $S \subseteq X$. Then suppose we have $V =
+    \set{V_i \subseteq X \MID i \in I}$, and $S \subseteq
+    \bigcup_{i\in I} V_i$. Then $V$ is called a \emph{cover} of $S$.
+    If $I$ is finite, then we call $V$ a \emph{finite} cover. If $X$
+    is a topological space with topology $\mc U$, and $V \subseteq \mc
+    U$, then we call $V$ an \emph{open} cover. If we have $V'
+    \subseteq V$ a cover of $S$, then we call $V'$ a \emph{subcover}.
+  \end{definition}
+  now, the familiar definition of compactness. \clearpage
+  \begin{definition}
+    Let $(X, \mc U)$ a topological space, and let $S \subseteq X$.
+    Then $S$ is said to be \emph{compact} if every open cover of $S$
+    has a finite subcover.
+  \end{definition}
+  As one might expect, a subspace $S \subseteq X$ is compact iff it is
+  compact under the induced topology.
+
 \end{adjustwidth}
 
 \end{document}

@@ -1,0 +1,226 @@
+\documentclass[nocover]{pset}
+\usepackage{tikz-cd}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Forest Kobayashi}
+\chead{Algebraic Topology}
+\rhead{Math 196 -- Fall, 2018}
+\rfoot{\thepage\ of \pageref{LastPage}}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{10pt}
+\lfoot{Friday, October 18th 2018}
+
+\usepackage[normalem]{ulem} % [normalem] prevents the package from
+                            % changing the default behavior of `\emph`
+                            % to underline.
+
+\titleformat{\section}
+  {\LARGE \scshape}{\thesection.}{.5em}{\vspace{.5em}}
+
+\titleformat{\subsection}
+  {\Large \scshape}{\thesubsection.}{.5em}{}
+
+\tikzstyle{titlerule}=[dash pattern=on \pgflinewidth off 2pt]
+\usetikzlibrary{decorations.markings}
+
+\usepackage{scalerel}
+\DeclareMathOperator*{\csum}{\scalerel*{\#}{\sum}}
+
+\newcommand{\wah}[1]{
+  \tikz[decoration={markings, mark=between positions 0 and 1 step 3pt
+    with { \draw [fill] (0,0) circle [radius=.5pt];}},
+  baseline=(todotted.base)]{
+  \node[inner sep=0pt,outer sep=0pt] (todotted) {#1};
+  \path[postaction={decorate}] (todotted.south west) --
+  (todotted.south east);}
+}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[titlerule] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\usepackage{upgreek}
+
+\usetikzlibrary{
+  knots,
+  hobby,
+  decorations.pathreplacing,
+  shapes.geometric,
+  calc
+}
+
+\tikzset{
+  knot diagram/every strand/.append style={
+    ultra thick,
+    blue
+  },
+  show curve controls/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \draw [blue, dashed]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
+        node [at end, draw, solid, blue, inner sep=2pt]{};
+        \draw [blue, dashed]
+        (\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast)
+        node [at start, draw, solid, blue, inner sep=2pt]{}
+        node [at end, fill, blue, ellipse, inner sep=2pt]{}
+        ;
+      }
+    }
+  },
+  show curve endpoints/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \node [fill, red, ellipse, inner sep=2pt] at (\tikzinputsegmentlast) {}
+        ;
+      }
+    }
+  }
+}
+
+\usepackage{caption}
+
+\begin{document}
+
+\begin{center}
+  {\scshape \Large Basic Algebraic Topology}
+
+  {\itshape Based on Kosniowski; Matveev}
+\end{center}
+\vspace{-.1cm}
+\hrulefill
+
+\section{Picking up where we left off}
+\begin{adjustwidth}{1em}{1em}
+  \subsection{Some Theorems}
+  We'll breeze briskly through some more topology, then transition
+  into knot theory topics.
+  \begin{theorem}
+    Let $Y$ be the quotient space of the topological space $X$
+    determined by the surjective mapping $f : X \to Y$. If $X$ is
+    compact Hausdorff and $f$ is closed then $Y$ is (compact)
+    Hausdorff.
+  \end{theorem}
+  % \begin{proof}
+  %   Let $y_1, y_2 \in Y$, with $y_1 \neq y_2$. Let $X_1 =
+  %   f^{-1}(y_1),\ X_2 = f^{-1}(y_2)$. Since $f$ is closed, and every
+  %   point of $X$ is closed, then for $X_1, X_2$, take any two
+  %   representative elements $x_1$ and $x_2$, and use the fact that
+  %   $f(\set{x_1}), f(\set{x_2})$ is the closed image of a close set,
+  %   thus $\set{y_1}$ and $\set{y_2}$ are closed in $Y$. Then because
+  %   $f$ is continuous, we get $X_1$ and $X_2$ are closed in $X$. Note
+  %   too that they must be disjoint, because $y_1 \neq y_2$.
+  % \end{proof}
+  \begin{corollary}
+    Let $X$ be a compact Hausdorff $G$-space with $G$ finite. Then
+    $X/G$ is a compact Hausdorff space.
+  \end{corollary}
+  \begin{corollary}
+    If $X$ is a compact Hausdorff space and $A$ is a closed subset of
+    $X$ then $X/A$ is a compact Hausdorff space.
+  \end{corollary}
+  \end{adjustwidth}
+  \section{All Together Now\ldots}
+  \begin{adjustwidth}{1em}{1em}
+  \subsection{Connectedness}~
+  \begin{definition}
+    Let $(X,\tau)$ a topological space. Then $X$ is said to be
+    \emph{connected} iff the only clopen subsets are trivial. If $S
+    \subseteq S$, then $S$ is said to be connected iff it is connected
+    in the induced topology.
+
+    Equivalently, $X$ is connected iff it cannot be expressed as the
+    union of finitely many disjoint non-empty open subsets.
+  \end{definition}
+  \begin{theorem}
+    Let $f : X \to Y$ be continuous, and suppose $X$ is connected.
+    Then $Y$ is connected as well.
+  \end{theorem}
+  \begin{proof}
+    Suppose, to obtain a contradiction, that $Y$ is disconnected. Then
+    there exist nonempty open sets $U,V \subseteq Y$ with $U \cup V =
+    Y$, and $U \cap V = \varnothing$. Since $U,V$ are open and $f$
+    continuous, then $f^{-1}(U)$, $f^{-1}(V)$ are open in $X$.
+    Furthermore, these are disjoint nonempty subsets of $X$ with
+    $f^{-1}(U) \cup f^{-1}(V) = X$. Then $X$ is disconnected, a
+    contradiction. Hence $Y$ is connected.
+  \end{proof}
+  \begin{theorem}
+    Suppose that $\set{Y_j \MID j \in J}$ is a collection of connected
+    subsets of a space $X$. If $\bigcap_{j \in J} Y_j \neq
+    \varnothing$, then $Y = \bigcup_{j \in J} Y_j$ is connected.
+  \end{theorem}
+  \begin{proof}
+    Suppose $U$ is a nonempty clopen subset of $Y$. Then $\exists j
+    \in J \st U \cap Y_j \neq \varnothing$. Hence, let $J' = \set{j
+      \in J \mid U \cap Y_j \neq \varnothing}$. Then $\forall j' \in
+    J'$, we have $U \cap Y_{j'}$ is clopen in the induced topology.
+    Since $Y_{j'}$ is connected, it follows that $U \cap Y_{j'} =
+    Y_{j'}$. Hence $U = Y$, so $Y$ is connected.
+  \end{proof}
+  \begin{theorem}
+    Let $X,Y$ be topological spaces. Then $X,Y$ are connected iff $X
+    \times Y$ is connected.
+  \end{theorem}
+  \begin{proof}~
+    \begin{iffproof}
+      \item Suppose $X,Y$ are connected. $\forall x \in X,\ y \in Y$,
+        $X \times \set{y} \cong X$ and $\set{x} \times Y \cong Y$ (and
+        thus each is connected), and note $(X \times \set{y}) \cap
+        (\set{x} \times Y) \neq \varnothing$, thus by theorem 1.3
+        their union is connected. Now, let $y \in Y$ be fixed. Observe
+        that
+        \[
+          X \times Y = \bigcup_{x \in X} (X \times \set{y}) \cap
+          (\set{x} \times Y)
+        \]
+        Hence $X \times Y$ is connected.
+      \item Suppose $X \times Y$ is connected. Then since the
+        canonical projection maps are continuous, it follows that
+        $X,Y$ are connected (continuous image of a connected set is
+        connected).
+    \end{iffproof}
+  \end{proof}
+  \subsection{Path Connectedness}
+
+  \section{A Brief Discussion of Manifolds}
+
+  \begin{definition}[Manifolds]
+    Let $n \in \ZZ^{>0}$, and let $(M, \tau)$ be a topological space.
+    Then $M$ is called a manifold iff $M$ is Hausdorff, and $\forall m
+    \in M$, there exists a neighborhood $N$ of $m$ such that $N \cong
+    \mathring{D}^n = \set{x \in \RR^n \MID \norm{x} < 1}$.
+  \end{definition}
+  \begin{definition}[Connected Sum]
+    Let $S_1$, $S_2$ be compact connected 2-manifolds (surfaces), and
+    let $D_1 \subseteq S_1$, $D_2 \subseteq S_2$ with $D_1, D_2 \cong
+    D^2$. Let $h_1 : D_1 \to D^2$, and $h_2 : D_2 \to D^2$ be
+    homeomorphisms. Then define $\sim$ to be an equivalence relation
+    such that $x \sim h^{-1}_2 h_1(x)$ iff $x \in \partial D_1$, and
+    $x \sim x$ otherwise. Then $S_1 \# S_2$ is given by
+    \[
+      \frac{(S_1 - \mathring{D_1}) \cup (S_2 - \mathring{D_2})}{\sim}
+    \]
+  \end{definition}
+  \begin{definition}
+    Call a surface $S^2$ \emph{orientable} if it contains no
+    M\"{o}bius strip, and \emph{non-orientable} otherwise. Then for $m
+    \geq 0, n \geq 1$, we call
+    \[
+      S^2 \# \pn{\csum_{i=1}^m T} = S \# mT
+    \]
+    the \emph{standard orientable surface of genus $m$}, and
+    \[
+      S^2 \# \pn{\csum_{i=1}^n \RR P^2} = S \# n\RR P^2
+    \]
+    the \emph{standard non-orientable surface of genus $n$}.
+  \end{definition}
+
+\end{adjustwidth}
+
+\end{document}

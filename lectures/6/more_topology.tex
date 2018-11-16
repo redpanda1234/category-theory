@@ -1,0 +1,375 @@
+\documentclass[nocover]{pset}
+\usepackage{tikz-cd}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Forest Kobayashi}
+\chead{Algebraic Topology}
+\rhead{Math 196 -- Fall, 2018}
+\rfoot{\thepage\ of \pageref{LastPage}}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{10pt}
+\lfoot{Friday, October 18th 2018}
+
+\usepackage[normalem]{ulem} % [normalem] prevents the package from
+                            % changing the default behavior of `\emph`
+                            % to underline.
+
+\titleformat{\section}
+  {\LARGE \scshape}{\thesection.}{.5em}{\vspace{.5em}}
+
+\titleformat{\subsection}
+  {\Large \scshape}{\thesubsection.}{.5em}{}
+
+\tikzstyle{titlerule}=[dash pattern=on \pgflinewidth off 2pt]
+\usetikzlibrary{decorations.markings}
+
+\newcommand{\wah}[1]{
+  \tikz[decoration={markings, mark=between positions 0 and 1 step 3pt
+    with { \draw [fill] (0,0) circle [radius=.5pt];}},
+  baseline=(todotted.base)]{
+  \node[inner sep=0pt,outer sep=0pt] (todotted) {#1};
+  \path[postaction={decorate}] (todotted.south west) --
+  (todotted.south east);}
+}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[titlerule] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\usepackage{upgreek}
+
+\usetikzlibrary{
+  knots,
+  hobby,
+  decorations.pathreplacing,
+  shapes.geometric,
+  calc
+}
+
+\tikzset{
+  knot diagram/every strand/.append style={
+    ultra thick,
+    blue
+  },
+  show curve controls/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \draw [blue, dashed]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
+        node [at end, draw, solid, blue, inner sep=2pt]{};
+        \draw [blue, dashed]
+        (\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast)
+        node [at start, draw, solid, blue, inner sep=2pt]{}
+        node [at end, fill, blue, ellipse, inner sep=2pt]{}
+        ;
+      }
+    }
+  },
+  show curve endpoints/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \node [fill, red, ellipse, inner sep=2pt] at (\tikzinputsegmentlast) {}
+        ;
+      }
+    }
+  }
+}
+
+\usepackage{caption}
+
+\begin{document}
+
+\begin{center}
+  {\scshape \Large Basic Algebraic Topology}
+
+  {\itshape Based on Kosniowski; Matveev}
+\end{center}
+\vspace{-.1cm}
+\hrulefill
+
+\section{Picking up where we left off}
+\begin{adjustwidth}{1em}{1em}
+  \subsection{Compactness}
+  Last time, we finished by giving some basic definitions of
+  comapctness, and whatnot. We'll begin with a small exercise to shake
+  some of the cobwebs loose.
+  \begin{enumerate}
+    \item Suppose that $X$ has the finite complement topology. Show
+      that $X$ is compact. Show that each subset of $X$ is compact.
+    \item Prove that a topological space is compact if and only if
+      whenever $\set{C_j \MID j \in J}$ is a collection of closed sets
+      with $\bigcap_{j\in J} C_j = \varnothing$ then there is a finite
+      subcollection $\set{C_k \MID k \in K}$ such that $\bigcap_{k \in
+        K} C_k = \varnothing$.
+    \item Let $\mc F$ be the topology on $\RR$ defined by $U \in \mc
+      F$ iff $\forall s \in U, \exists t > s \st [s,t) \subseteq U$.
+      Prove that the subset $[0,1]$ of $\mc F$ is not compact.
+  \end{enumerate}
+  Now
+  \begin{enumerate}
+    \item Let $U = \set{U_i \mid i \in I}$ be an open cover of $X$.
+      Let $U_i \in U$. Then $X - U_i$ is finite. For every $x_j \in X
+      - U_i$, $\exists U_j \in U \st x \in U_j$ (because $U$ is a
+      cover). Then the set consisting of $U_i$ and the $U_j$ is a
+      finite subcover, thus $X$ is compact. Let $Y \subseteq X$. Then
+      let $V = \set{V_k \mid k \in K}$ be an open cover of $Y$.
+      Proceed an analogous argument to the above to obtain $Y$
+      compact.
+    \item Let $X$ be a topological space, and suppose $X$ is compact.
+      Let $C = \set{C_j \MID j \in J, C_j = \ol{C_j}}$ (i.e., the
+      $C_j$ are closed), and suppose
+      \[
+        \bigcap_{j \in J} C_j = \varnothing.
+      \]
+      By De Morgan's laws,
+      \[
+        \bigcup_{j \in J} X - C_j = X
+      \]
+      since $C_j$ are all closed, then $X - C_j$ are open, hence this
+      is an open cover of $X$, and there exists a finite subcover.
+      Apply De Morgan's laws again to yield the desired result.
+    \item Let $\varepsilon > 0$ be given. Let $U$ be given by the open
+      cover
+      \[
+        U = % \underbrace{
+          \set{ \left[ 1 - \frac{1}{2^i}, 1 - \frac{1}{2^{i +
+                1}}\right) \MID i = 0, 1, \ldots }% }_{U_1}
+      \cup % \underbrace{
+        \set{\left[1, 1 + \varepsilon \right)}% }_{U_2},
+      \]
+      and note that all the sets in $U$ are disjoint, and that they
+      cover $[0,1]$. From disjointness, it follows there is no finite
+      subcover.
+  \end{enumerate}
+  \subsection{A brief review of projections}
+  On our first pass through, we didn't treat projection maps in a lot
+  of depth, so we'll very briefly revisit them here. \clearpage
+  \begin{definition}[Projection Maps]
+    Let $X, Y$ be topological spaces. Then define $\pi_X : X \times Y
+    \to X$, $\pi_Y : X \times Y \to Y$ by
+    \[
+      \pi_X(x,y) = x \qquad \qquad \pi_Y(x,y) = y
+    \]
+    $\pi_X$ and $\pi_Y$ are referred to as the \emph{product
+      projections}. Note that both are continuous.
+  \end{definition}
+  \section{Compactness, Continued}
+  \begin{theorem}
+    Let $(X, \tau)$ be a topological space, and let $S \subseteq X$.
+    Then $S$ is compact in $(X, \tau)$ iff $S$ is compact under the
+    induced topology.
+  \end{theorem}
+  \begin{proof}
+    Forwards direction is trivial. For the backwards direction,
+    suppose $S$ is compact in the induced topology. Let $U = \set{U_i
+      \MID i \in I}$ be an open cover of $S$ in $(X, \tau)$. Then $V =
+    \set{V_i = U_i \cap S \MID i \in I}$ is an open cover of $S$ in
+    the induced topology, and hence by compactness there exists a
+    finite subcover $V' = \set{V_{i_k} \MID i_k \in I, k=1,\ldots,n}$.
+    Now, take $U' = \set{U_{i_k} \MID i_k \in I, k =1,\ldots, n}$.
+    Then $U'$ is a finite subcover of $U$. Since $U$ was taken to be
+    arbitrary, this implies $S$ is comapct.
+  \end{proof}
+  In the metrizable topologies we encountered in Real Analysis, we
+  proved that continuous functions preserve compactness. However, we
+  will now show that the same result holds in a general topological
+  space.
+  \begin{theorem}[Continuity and Compactness]
+    Let $f : (X,\tau) \to (Y,\upsilon)$ be a continuous map. Let $S
+    \subseteq X$ be a compact subspace. Then $f(S)$ is compact in $Y$.
+  \end{theorem}
+  \begin{proof}
+    Let $V = \set{V_i \mid i \in I} \subseteq \upsilon$ be an open
+    cover of $f(S)$. Because $f$ is continuous, $U = \set{f^{-1}(V_i)
+      \MID i \in I}$ is a collection of open sets covering
+    $f^{-1}(f(S)) \supseteq S$. Since $S$ is compact, there exists a
+    finite subcover $U' = \set{f^{-1}(V_{i_k}) \MID i_k \in I, k =
+      1,\ldots,n}$ covering $f^{-1}(f(S))$. Then $V' = \set{V_{i_k}
+      \mid i_k \in I, k = 1,\ldots,n}$ is a finite subcover of $V$.
+    Thus $f(S)$ is compact in $Y$.
+  \end{proof}
+  By virtue of the properties of continuous functions that we proved
+  last time, some nice results follow immediately:
+  \begin{corollary}
+    ~
+    \begin{enumerate}
+      \item Any closed interval in $\RR$ is compact.
+      \item If $X$ and $Y$ are homeomorphic, then $X$ is compact iff
+        $Y$ is.
+      \item If $X$ is compact, and $Y$ is any set, then $Y$ with the
+        quotient topology induced by $f : X \to Y$ is compact.
+    \end{enumerate}
+  \end{corollary}
+  For completeness, we list some closure properties of compact
+  subspaces:
+  \begin{theorem}
+    Let $(X, \tau)$ be a topological space. Let $S = \set{S_i \MID i
+      \in I} \subseteq$ be the collection of compact subspaces of $X$.
+    Then
+    \begin{enumerate}
+      \item If $S_1, S_2 \in S$, then $S_1 \cup S_2 \in S$ (union of
+        two compact subspaces is compact). It follows by induction
+        that any finite union of compact subspaces is compact.
+      \item It is not the case that in an arbitrary topological space,
+        an arbitrary intersection of compact spaces is compact (we
+        need Hausdorffness). But for finite intersections, things work
+        out.
+    \end{enumerate}
+  \end{theorem}
+  % \begin{proof}
+  %   \begin{enumerate}
+  %     \item Trivial
+  %     \item Let
+  %       \[
+  %         Y = \bigcap_{k \in K} S_k,
+  %       \]
+  %       where $S_k \in S$, and $K$ is finite. Then let $U = \set{U_i
+  %         \mid i \in I}$ be an open cover of $Y$.
+  %   \end{enumerate}
+  % \end{proof}
+  \begin{theorem}
+    Let $(X, \tau)$ be a compact topological space, and let $S
+    \subseteq X$ be closed. Then $S$ is compact.
+  \end{theorem}
+  \begin{proof}
+    Let $U = \set{U_i \mid i \in I}$ be an open cover of $S$. Let $U_0
+    = X - S$. Then $U_0$ is open, and $U \cup \set{U_0}$ covers $X$.
+    Then since $X$ is compact, there exists a finite subcover $U' =
+    \set{U_i \mid i \in I \cup \set{0}}$. Take $U'' = U' - \set{U_0}$
+    to obtain a finite subcover of $U$.
+  \end{proof}
+  I'm proud to have written this proof without looking at the one in
+  the book at all, only to find later that they're basically
+  identical.
+  \begin{theorem}
+    Let $X, Y$ be topological spaces. Then $X, Y$ are compact iff $X
+    \times Y$ is compact.
+  \end{theorem}
+  \begin{proof}~
+    \begin{enumerate}
+      \item[($\Rightarrow$):] Suppose $X,Y$ are compact. WTS $X \times
+        Y$ is compact as well. Let $W = \set{W_i \mid i \in I}$ be an
+        open cover of $X \times Y$. Note that $\forall y \in Y$, $X
+        \times \set{y}$ is homeomorphic to $X$.
+      \item[($\Leftarrow$):] Suppose $X \times Y$ is compact. Let $U =
+        \set{U_i \MID i \in I}$ be an open cover of $X$, and $V =
+        \set{V_j \MID j \in J}$ be an open cover of $Y$. Then $W$
+        given by
+        \[
+          W = \set{\bigcup_{k \in K} W_k \MID W_k \in U \times V}
+        \]
+        is an open cover of $X \times Y$, and thus admits a finite
+        subcover:
+        \[
+          W' = \set{W_\ell \mid \ell \in L;\ \abs{L} < \infty}
+          \subseteq W
+        \]
+        Apply a similar trick something something boom
+    \end{enumerate}
+  \end{proof}
+  \section{Hausdorff Spaces}
+  Hausdorffness is an important property in Topology that essentially
+  allows us to separate things from each other (our space is not
+  ``infinitely bunched-up'' somewhere).
+  \begin{definition}
+    Let $(X, \tau)$ be a topological space. Then call $X$
+    \emph{Hausdorff} iff for all $x, y \in X$ such that $x \neq y$,
+    there exist open sets $U_x, U_y$ with $x \in U_x$, $y \in U_y$,
+    and $U_x \cap U_y = \varnothing$.
+  \end{definition}
+  Note that by a simple $\varepsilon/2$ argument, it follows that all
+  metrizable spaces are Hausdorff.
+  \begin{definition}[$T_k$ spaces]
+    For $k = 0, 1, 2, 3, 4$, call $X$ a $T_k$ space if it satisfies
+    the $k$-th condition below (indexing starts at 0):
+    \begin{enumerate}[label=$T_\arabic*$:]
+      \item[$T_0$:] For all $x,y \in X$ ($x \neq y$), there is an open
+        set $U$ containing one but not the other (i.e., $x \in U$ and
+        $y \not \in U$, or $y \in U$ and $x \not \in U$).
+      \item For all $x,y \in X$ ($x \neq y$), there are open sets
+        $U,V$ such that $x \in U$, $y \in V$, and $x \not \in V$, $y
+        \not\in U$.
+      \item For all $x,y$ in $X$ ($x \neq y$), there are open sets $U,
+        V$ such that $x \in U$, $y \in V$, and $U \cap V =
+        \varnothing$ (there are disjoint neighborhoods about $x$ and
+        $y$).
+      \item $X$ is $T_1$, and for all closed subsets $F$ and points $x
+        \not \in F$, there exist open sets $U,V$ such that $F
+        \subseteq U$, $x \in V$, and $U \cap V = \varnothing$.
+      \item $X$ is $T_1$, and for all pairs of disjoint closed
+        subsetes $F_1$, $F_2$, there exist open sets $U$, $V$ such
+        that $F_1 \subseteq U$, $F_2 \subseteq V$
+    \end{enumerate}
+  \end{definition}
+  Naturally, if $X$ and $Y$ are homeomorphic topological spaces, and
+  $X$ is $T_k$, then $Y$ is $T_k$ as well. As an exercise, we
+  construct spaces that are $T_j$ (for $j = 0, \ldots, 4$) that are
+  not $T_{i > j}$.
+  \begin{enumerate}[label=($X_\arabic*)$:]
+    \item[($X_0$):] Let $X_0 = (\RR^{\geq 0}, \tau)$, where $\tau =
+      \set{\bkpn{0,t} \MID t \in \RR^{\geq 0}}$. Note that $\tau$ is
+      indeed a topology on $\RR^{\geq 0}$. Note $X_0$ is not $T_1$.
+    \item Let $X_1 = (X, \tau)$ where
+  \end{enumerate}
+  \begin{theorem}
+    A space $X$ is $T_1$ iff every point of $X$ is closed.
+  \end{theorem}
+  \begin{proof}
+    Suppose $(X, \tau)$ is $T_1$. Let $x \in X$ be arbitrary, and let
+    $y \in X- \set{x}$. Then $\exists U_y \in \tau$ with $y \in U_y$,
+    but $x \not \in U_y$. Hence
+    \[
+      \bigcup_{y \in X - \set{x}} U_y = X - \set{x}
+    \]
+    is open, and so $\set{x}$ is closed.
+
+    Now suppose $\set{x}$ is closed. Then $T_1$ follows immediately.
+  \end{proof}
+  An important theorem:
+  \begin{theorem}
+    Let $A$ be a compact subset of a Hausdorff space $X$. Then $A$ is
+    closed.
+  \end{theorem}
+  \begin{proof}
+    We define the following (bizarre) open cover. For all $a \in A$,
+    for all $x \in X - A$, there exist disjoint open sets $U_a$, $V_a$
+    such that $a \in U_a$, and $x \in V_a$. Then $U = \set{U_a}$ is an
+    open cover of $A$, and thus contains a finite subcover $U' =
+    \set{U_{a'} \MID a' \in \mc{A} \subseteq A, \abs{\mc{A}} <
+      \infty}$, and corresponding $V'$. Then note that
+    \[
+      V_x = \bigcap_{a' \in A} V_{a'}
+    \]
+    is an open set (closure under finite intersections) such that $V_x
+    \cap A = \varnothing$. Hence
+    \[
+      X - A = \bigcup_{x \in X} V_x
+    \]
+    and so $X - A$ is open. Then $A$ is closed.
+  \end{proof}
+  Now, it is time for another Very Important Theorem\texttrademark.
+  \begin{theorem}
+    Let $(X, \tau)$, $(Y, \upsilon)$ be topological spaces, with $X$
+    compact and $Y$ Hausdorff. Let $f : X \to Y$ be continuous. Then
+    $f$ is a homeomorphism iff $f$ is a bijection.
+  \end{theorem}
+  \begin{proof}~
+    \begin{iffproof}
+      \item Suppose $f$ is a bijection. Then $f^{-1}$ exists, and
+        $ff^{-1} = \id{Y}$, $f^{-1}f = \id{X}$. WTS $f^{-1}$ is
+        continuous. Let $S \subseteq X$ be closed. Then $S$ is
+        compact, hence $\pn{f^{-1}}^{-1}(S) = f(S)$ is compact in $Y$.
+        Thus $f(S)$ is closed as well, hence $f^{-1}$ is continuous.
+        Thus $f$ is a homeomorphism.
+      \item Suppose $f$ is a homeomorphism. Then $f$ is a bijection.
+    \end{iffproof}
+  \end{proof}
+  Thus, we see that
+\end{adjustwidth}
+
+\end{document}
