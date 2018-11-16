@@ -45,6 +45,7 @@
 % Homotopy equivalence
 \newcommand{\htop}[1][A]{\ensuremath\simeq_{\mrm{rel}\, #1}}
 \newcommand{\homm}{\ensuremath\mrm{hom}}
+\newcommand{\ob}{\ensuremath\mrm{ob}}
 \usepackage{upgreek}
 
 \usetikzlibrary{
@@ -101,8 +102,8 @@
 \section{Picking up where we left off}
 \begin{adjustwidth}{1em}{1em}
   \subsection{Some Theorems}
-  We'll breeze briskly through some more topology, then transition
-  into knot theory topics.
+  We'll breeze briskly through some more point-set topology, then move
+  on to the foundations of algebraic topology.
   \begin{theorem}
     Let $Y$ be the quotient space of the topological space $X$
     determined by the surjective mapping $f : X \to Y$. If $X$ is
@@ -535,8 +536,136 @@
     Let $x,y \in X$. If there is a path in $X$ from $x$ to $y$, then
     $\pi(X,x)$ and $\pi(X,y)$ are isomorphic.
   \end{theorem}
-  % \begin{proof}
-
-  % \end{proof}
+  \begin{proof}
+    Let $f$ be a path in $X$ from $x$ to $y$. Then for all $g \in
+    \pi(X,x)$, $[\ol{f}] * [g] * [f] = [\ol{f} * g * f]$ is an
+    equivalence class of paths in $\pi(X,y)$. Hence, define $\varphi :
+    \pi(X,x) \to \pi(X,y)$ by
+    \[
+      \varphi_{f}([g]) = [\ol{f} * g * f].
+    \]
+    Clearly, this is bijective (we can define $\varphi_{f}^{-1}(h) =
+    [f * h * \ol{f}]$, and note that $\varphi_f^{-1} \varphi =
+    1_{\pi(X,x)}$, $\varphi_f \varphi_f^{-1} = 1_Y$), and inherits the
+    group structure of $\pi(X,x)$ in its image (since it is a
+    conjugation). Thus it is a homomorphism.
+  \end{proof}
+  \begin{corollary}
+    Let $X$ be a path connected topological space. Then for all $x,y
+    \in X$, $\pi(X,x) \cong \pi(X,y)$.
+  \end{corollary}
+  Note that the requirement that $X$ be \emph{path} connected is
+  essential.
+  \subsection{Continuous Functions \& Fundamental Groups}
+  We want to understand how continuous functions affect the
+  fundamental group. First, we have the following three facts:
+  \begin{lemma}
+    Let $X$, $Y$ be topological spaces, and let $\varphi : X \to Y$ be
+    continuous. Then
+    \begin{enumerate}[label=\arabic*)]
+      \item If $f,g$ are paths in $X$, then $\varphi f$, $\varphi g$
+        are paths in $Y$.
+      \item If $f \sim g$, then $\varphi f \sim \varphi g$
+      \item If $f$ is a closed path in $X$ based at $x \in X$, then
+        $\varphi f$ is a closed path in $Y$ based at $\varphi(x)$
+    \end{enumerate}
+  \end{lemma}
+  From these facts, we might deduce that continuous maps are, on some
+  level, really just performing a sort of group homomorphism.
+  \begin{definition}[Induced Homomorphism]
+    Let $X, Y$ be topological spaces, and let $\varphi : X \to Y$ be
+    continuous. Then define the \emph{induced homomorphism} as
+    follows: for all $x \in X$, define $\varphi_* : \pi(X,x) = \pi(Y,
+    \varphi(x))$ such that if $f$ is a path based on $x$,
+    \[
+      \varphi_*([f]) = [\varphi f].
+    \]
+  \end{definition}
+  We referred to this as a homomorphism, so it better actually be one.
+  Let's prove it!
+  \begin{theorem}
+    Let $X,Y$ be topological spaces, and let $\varphi : X \to Y$ be
+    continuous. Then $\varphi_*$ is a homomorphism of groups.
+  \end{theorem}
+  \begin{proof}
+    Let $[f], [g] \in \pi(X,x)$. Then
+    \begin{align*}
+      \varphi_*\pn{[f]*[g]}
+      &= \varphi_*([f * g]) \\
+      &= [\varphi(f * g)] \\
+      &= [\varphi(f) * \varphi(g)] \tag{*}\\
+      &= [\varphi(f)] * [\varphi(g)]
+    \end{align*}
+    note that $(*)$ follows by simply cutting any representative path
+    halfway through, and doing the work. Hence, $\varphi_*$ is a group
+    homomorphism.
+  \end{proof}
+  A number of nice properties follow.
+  \begin{theorem}
+    Let $X,Y,Z$ be topological spaces, and let $\varphi : X \to Y$,
+    $\psi : Y \to Z$ be continuous maps. Then
+    \begin{enumerate}[label=\arabic*)]
+      \item $(\psi \varphi)_* = \psi_* \varphi_*$
+      \item If $1 : X \to X$ is the identity map then $1_*$ is the
+        identity homomorphism.
+      \item If $\varphi$ is a homeomorphism, then $\varphi_* :
+        \pi(X,x) \to \pi(Y, \varphi(x))$ is an isomorphism of groups.
+    \end{enumerate}
+  \end{theorem}
+  Instead of proving these, we make a remark about functors. Recall
+  the following definition:
+  \begin{definition}[Functor]
+    Let $\mb C, \mb D$ be categories, and let $c \in \ob(C)$, $f,g \in
+    \homm(C)$. Then call $\mc{F} = (\mc{F}_o, \mc{F}_a)$ a functor if
+    \[
+      \mc{F}_o : \ob(\mb C) \to \ob(\mb D) \qquad \mc{F}_a : \homm(\mb
+      C) \to \homm(\mb D)
+    \]
+    such that the following essential properties are preserved:
+    \begin{enumerate}
+    \item $\forall (f : c \to c') \in \homm(\mb C)$, $\mc{F}_a(f) :
+      \mc{F}_o(c) \to \mc{F}_o(c')$, with
+      \[
+        \mc{F}_a(1_{c}) = 1_{\mc{F}_o(c)}
+      \]
+      and
+    \item
+      \[
+        \mc{F}_a(g \circ f) = \mc{F}_a(g) \circ \mc{F}_a(f).
+      \]
+    \end{enumerate}
+  \end{definition}
+  Or alternatively, with homsets:
+  \begin{definition}[Functor (version 2)]
+    Let $\mc{T} : \mb{C} \to \mb{B}$ be defined with the usual object
+    functor $\mc{T}_o$, together with a collection of functions
+    \[
+      \mc{T}^{a,b} : \homm_{\mb C}(a,b) \to \homm_{\mb B}(\mc{T}_o(a),
+      \mc{T}_o(b))
+    \]
+    then $\mc{T}$ is \emph{full} when every such $\mc{T}^{a,b}$ is
+    surjective, and \emph{faithful} when injective.
+  \end{definition}
+  We can now frame the results obtained above in the language of
+  category theory.
+  \begin{theorem}
+    Let $\mb{Top}_*$ denote the category with objects $(X,x)$ where
+    $X$ is a topological space, and $x$ is a selected base point.
+    Define the morphisms on $\mb{Top}_*$ to be continuous maps of the
+    form $\varphi : (X, x) \to (Y, y)$, where we require $\varphi(x) =
+    y$. Then the map $\mc F : \mb{Top}_* \to \mb{Grp}$ taking each
+    $(X,x)$ to the corresponding fundamental group is a functor.
+  \end{theorem}
+  \begin{proof}
+    Take
+    \[
+      \mc F_o((X,x)) = \pi(X,x) \qquad \qquad \mc F_a(\varphi) =
+      \varphi_*.
+    \]
+    And note that indeed, as we defined above, if $\varphi : (X,x) \to
+    (Y,y)$, then $\varphi_* : \pi(X,x) \to \pi(Y,y)$, and $\mc
+    F_a(1_{(X,x)}) = 1_*$, and indeed $\mc F_a(\psi \circ \varphi) =
+    \mc F_a(\psi) \circ \mc F_a(\varphi)$. Hence $\mc F$ is a functor.
+  \end{proof}
 \end{adjustwidth}
 \end{document}
