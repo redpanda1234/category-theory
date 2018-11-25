@@ -1,0 +1,52 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Basic Category Theory}{1}
+\contentsline {section}{\numberline {1.1}Introduction}{1}
+\contentsline {subsection}{\numberline {1.1.1}Meta-objects}{1}
+\contentsline {subsection}{\numberline {1.1.2}Categories, proper}{2}
+\contentsline {subsection}{\numberline {1.1.3}Functors}{3}
+\contentsline {section}{\numberline {1.2}Natural Transformations}{5}
+\contentsline {section}{\numberline {1.3}Monics, Epics, and Zeros.}{6}
+\contentsline {chapter}{\numberline {2}Duality in Category Theory}{9}
+\contentsline {section}{\numberline {2.1}Introduction}{9}
+\contentsline {subsection}{\numberline {2.1.1}Hom-Sets}{9}
+\contentsline {section}{\numberline {2.2}Duality}{10}
+\contentsline {subsection}{\numberline {2.2.1}Motivation}{10}
+\contentsline {subsection}{\numberline {2.2.2}Basic definitions}{10}
+\contentsline {subsection}{\numberline {2.2.3}Contravariance and Opposites}{11}
+\contentsline {subsection}{\numberline {2.2.4}Products of Categories}{13}
+\contentsline {chapter}{\numberline {3}Single-Variable Differentiation}{17}
+\contentsline {section}{\numberline {3.1}Picking up where we left off}{17}
+\contentsline {subsection}{\numberline {3.1.1}Some Theorems}{17}
+\contentsline {section}{\numberline {3.2}All Together Now\ldots }{17}
+\contentsline {subsection}{\numberline {3.2.1}Connectedness}{17}
+\contentsline {subsection}{\numberline {3.2.2}Path Connectedness}{18}
+\contentsline {section}{\numberline {3.3}A Brief Discussion of Manifolds}{20}
+\contentsline {section}{\numberline {3.4}Homotopy}{20}
+\contentsline {section}{\numberline {3.5}Towards the fundamental group}{21}
+\contentsline {subsection}{\numberline {3.5.1}Group Structure of Paths}{21}
+\contentsline {subsection}{\numberline {3.5.2}The Fundamental Group}{22}
+\contentsline {subsection}{\numberline {3.5.3}Continuous Functions \& Fundamental Groups}{23}
+\contentsline {chapter}{\numberline {4}Basic Topology}{25}
+\contentsline {section}{\numberline {4.1}Introduction}{25}
+\contentsline {subsection}{\numberline {4.1.1}Basic Point-Set Topology}{25}
+\contentsline {subsection}{\numberline {4.1.2}Onwards to Algebraic Topology}{26}
+\contentsline {subsection}{\numberline {4.1.3}Continuous functions and Induced Topologies}{29}
+\contentsline {subsection}{\numberline {4.1.4}Quotient and Product spaces}{30}
+\contentsline {subsection}{\numberline {4.1.5}Compactness and Hausdorffness}{32}
+\contentsline {section}{\numberline {4.2}Picking up where we left off}{33}
+\contentsline {subsection}{\numberline {4.2.1}Compactness}{33}
+\contentsline {subsection}{\numberline {4.2.2}A brief review of projections}{33}
+\contentsline {section}{\numberline {4.3}Compactness, Continued}{34}
+\contentsline {section}{\numberline {4.4}Hausdorff Spaces}{35}
+\contentsline {section}{\numberline {4.5}Picking up where we left off}{37}
+\contentsline {subsection}{\numberline {4.5.1}Some Theorems}{37}
+\contentsline {chapter}{\numberline {5}Towards Algebraic Topology}{39}
+\contentsline {section}{\numberline {5.1}All Together Now\ldots }{39}
+\contentsline {subsection}{\numberline {5.1.1}Connectedness}{39}
+\contentsline {subsection}{\numberline {5.1.2}Path Connectedness}{39}
+\contentsline {section}{\numberline {5.2}A Brief Discussion of Manifolds}{42}
+\contentsline {section}{\numberline {5.3}Homotopy}{42}
+\contentsline {section}{\numberline {5.4}Towards the fundamental group}{44}
+\contentsline {subsection}{\numberline {5.4.1}Group Structure of Paths}{44}
+\contentsline {subsection}{\numberline {5.4.2}The Fundamental Group}{45}
+\contentsline {subsection}{\numberline {5.4.3}Continuous Functions \& Fundamental Groups}{46}
