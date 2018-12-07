@@ -7,8 +7,14 @@
 \renewcommand{\dom}{\mrm{dom}}
 \renewcommand{\cod}{\mrm{cod}}
 
-\newcommand{\ob}{\mrm{ob}}
-\newcommand{\homm}{\mrm{hom}}
+% \newcommand{\ob}{\mrm{ob}}
+% \newcommand{\homm}{\mrm{hom}}
+
+\renewpagestyle{main}{
+  \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
+  \headrule
+  \setfoot{Last Updated \today}{}{\thepage\ of \pageref{LastPage}}
+} % odd
 
 \usetikzlibrary{
   knots,
@@ -52,11 +58,10 @@
 \usepackage{caption}
 
 \usepackage{scalerel}
-\DeclareMathOperator*{\csum}{\scalerel*{\#}{\sum}}
 
 \renewcommand{\epsilon}{\lunateepsilon}
 % Homotopy equivalence
-\newcommand{\htop}[1][A]{\ensuremath\simeq_{\mrm{rel}\, #1}}
+
 
 \begin{document}
 
@@ -136,7 +141,7 @@ objects with structure, and how that structure is modified or
 preserved when mapping to some other object. Category theory makes
 this a little more formal. First, we begin with some definitions.\\
 
-\subsection{Meta-objects}
+\subsection{Meta-objects}~
 \begin{definition}[Metagraph]
   A \emph{metagraph} consists of any collection (note: does not mean a
   set! See \emph{proper classes}) of \emph{objects} $o_1, o_2,
@@ -948,502 +953,7 @@ h\circ g$, call $f$ idempotent.
 \end{adjustwidth}
 
 
-
-\chapter{Single-Variable Differentiation}
-\section{Picking up where we left off}
-% \begin{leftbarx}
-%   hi
-% \end{leftbarx}
-\begin{adjustwidth}{1em}{1em}
-  \subsection{Some Theorems}
-  We'll breeze briskly through some more point-set topology, then move
-  on to the foundations of algebraic topology.
-  \begin{theorem}
-    Let $Y$ be the quotient space of the topological space $X$
-    determined by the surjective mapping $f : X \to Y$. If $X$ is
-    compact Hausdorff and $f$ is closed then $Y$ is (compact)
-    Hausdorff.
-  \end{theorem}
-  % \begin{proof}
-  %   Let $y_1, y_2 \in Y$, with $y_1 \neq y_2$. Let $X_1 =
-  %   f^{-1}(y_1),\ X_2 = f^{-1}(y_2)$. Since $f$ is closed, and every
-  %   point of $X$ is closed, then for $X_1, X_2$, take any two
-  %   representative elements $x_1$ and $x_2$, and use the fact that
-  %   $f(\set{x_1}), f(\set{x_2})$ is the closed image of a close set,
-  %   thus $\set{y_1}$ and $\set{y_2}$ are closed in $Y$. Then because
-  %   $f$ is continuous, we get $X_1$ and $X_2$ are closed in $X$. Note
-  %   too that they must be disjoint, because $y_1 \neq y_2$.
-  % \end{proof}
-  \begin{corollary}
-    Let $X$ be a compact Hausdorff $G$-space with $G$ finite. Then
-    $X/G$ is a compact Hausdorff space.
-  \end{corollary}
-  \begin{corollary}
-    If $X$ is a compact Hausdorff space and $A$ is a closed subset of
-    $X$ then $X/A$ is a compact Hausdorff space.
-  \end{corollary}
-  \end{adjustwidth}
-  \section{All Together Now\ldots}
-  \begin{adjustwidth}{1em}{1em}
-  \subsection{Connectedness}~
-  \begin{definition}
-    Let $(X,\tau)$ a topological space. Then $X$ is said to be
-    \emph{connected} iff the only clopen subsets are trivial. If $S
-    \subseteq S$, then $S$ is said to be connected iff it is connected
-    in the induced topology.
-
-    Equivalently, $X$ is connected iff it cannot be expressed as the
-    union of finitely many disjoint non-empty open subsets.
-  \end{definition}
-  \begin{theorem}
-    Let $f : X \to Y$ be continuous, and suppose $X$ is connected.
-    Then $Y$ is connected as well.
-  \end{theorem}
-  \begin{proof}
-    Suppose, to obtain a contradiction, that $Y$ is disconnected. Then
-    there exist nonempty open sets $U,V \subseteq Y$ with $U \cup V =
-    Y$, and $U \cap V = \varnothing$. Since $U,V$ are open and $f$
-    continuous, then $f^{-1}(U)$, $f^{-1}(V)$ are open in $X$.
-    Furthermore, these are disjoint nonempty subsets of $X$ with
-    $f^{-1}(U) \cup f^{-1}(V) = X$. Then $X$ is disconnected, a
-    contradiction. Hence $Y$ is connected.
-  \end{proof}
-  % \begin{theorem}
-  %   Suppose that $\set{Y_j \MID j \in J}$ is a collection of connected
-  %   subsets of a space $X$. If $\bigcap_{j \in J} Y_j \neq
-  %   \varnothing$, then $Y = \bigcup_{j \in J} Y_j$ is connected.
-  % \end{theorem}
-  % \begin{proof}
-  %   Suppose $U$ is a nonempty clopen subset of $Y$. Then $\exists j
-  %   \in J \st U \cap Y_j \neq \varnothing$. Hence, let $J' = \set{j
-  %     \in J \mid U \cap Y_j \neq \varnothing}$. Then $\forall j' \in
-  %   J'$, we have $U \cap Y_{j'}$ is clopen in the induced topology.
-  %   Since $Y_{j'}$ is connected, it follows that $U \cap Y_{j'} =
-  %   Y_{j'}$. Hence $U = Y$, so $Y$ is connected.
-  % \end{proof}
-  \begin{theorem}
-    Let $X,Y$ be topological spaces. Then $X,Y$ are connected iff $X
-    \times Y$ is connected.
-  \end{theorem}
-  \emph{Proof:}
-  \begin{iffproof}
-  \item Suppose $X,Y$ are connected. $\forall x \in X,\ y \in Y$,
-    $X \times \set{y} \cong X$ and $\set{x} \times Y \cong Y$ (and
-    thus each is connected), and note $(X \times \set{y}) \cap
-    (\set{x} \times Y) \neq \varnothing$, thus by theorem 1.3
-    their union is connected. Now, let $y \in Y$ be fixed. Observe
-    that
-    \[
-      X \times Y = \bigcup_{x \in X} (X \times \set{y}) \cap
-      (\set{x} \times Y)
-    \]
-    Hence $X \times Y$ is connected.
-  \item Suppose $X \times Y$ is connected. Then since the
-    canonical projection maps are continuous, it follows that
-    $X,Y$ are connected (continuous image of a connected set is
-    connected). \qed
-  \end{iffproof}
-  \subsection{Path Connectedness}
-  We now introduce a new, stronger notion of \emph{connectedness} that
-  allows us to treat somewhat pathological examples, such as the
-  Topologist's Sine Curve (seen below):
-  % \begin{figure}[H]
-  %   \centering
-  %   \includegraphics{topsin.pdf}
-  %   \caption{Topolgist's Sine Curve}
-  % \end{figure}
-  Here, if we take the topological space $X = \set{(x,y) \MID y =
-    \sin\pn{\frac{1}{x}}} \cup \set{(0,0)}$ under the induced topology
-  with respect to $\RR^2$, then we see that $X$ is connected, but
-  clearly, there's some\ldots funny business going on near the origin.
-  Topologically, there's no problem --- it's impossible to separate
-  the origin out from the rest of the points of the curve; no matter
-  how close we get, we'll see infinitely many points of the curve
-  wobbling around. But clearly, there's no way to actually ``link''
-  the origin into the graph. This second point is the idea we want to
-  capture with path connectedness. But first, we need to define the
-  idea of a path.
-  \begin{definition}[Path]
-    Let $X$ be a topological space, and let $[0,1] \subseteq \RR$.
-    Then if $f : [0,1] \to X$ is a continuous function, we call $f$ a
-    \emph{path}. \textbf{Important Note:} $f([0,1])$ is \emph{not} the
-    path; rather the mapping $f$ itself is the path. $f([0,1])$ is
-    called a \emph{curve}.
-  \end{definition}
-  In order to apply paths in full, we will first need some handy
-  lemmas.
-  \begin{lemma}
-    Let $f$ be a path in $X$, and let $\ol{f}$ be defined by
-    $\ol{f}(t) = f(1-t)$. Then $\ol{f}$ is also a path in $X$.
-  \end{lemma}
-  \begin{proof}
-    Let $g : [0,1] \to [0,1]$ be defined by $g(t) = 1 -t$. Then $g$ is
-    continuous. Hence $\ol{f} = f \circ g$ is continuous.
-  \end{proof}
-  For the next lemma, we actually need another lemma first:
-  \begin{lemma}[Gluing Lemma]
-    Let $W,X$ be topological spaces and suppose that $W = A \cup B$
-    with $A,B$ both closed subsets of $W$. If $f : A \to X$ and $g : B
-    \to X$ are continuous functions such that for all $w \in A \cap B$
-    $f(w) = g(w)$, then $h : W \to X$ defined by
-    \[
-      h(w) =
-      \begin{cases}
-        f(w) & \text{if } w \in A, \\
-        g(w) & \text{if } w \in B
-      \end{cases}
-    \]
-    is a continuous function.
-  \end{lemma}
-  \begin{proof}
-    Note that $h$ is well-defined, and let $U$ a closed set in $X$.
-    Then
-    \begin{align*}
-      h^{-1}(U)
-      &= \pn{h^{-1}(U) \cap A} \cup \pn{h^{-1}(U) \cap B} \\
-      &= f^{-1}(U) \cup g^{-1}(U)
-    \end{align*}
-    but $f^{-1}(U)$ and $g^{-1}(U)$ are closed, so $h^{-1}(U)$ is
-    closed, thus $h$ is a continuous function.
-  \end{proof}
-  It is worth remarking that an equivalent claim could be proven for
-  $A,B$ open.
-  \begin{lemma}
-    Let $X$ be a topological space, and let $f,g$ be paths in $X$ such
-    that $f(1) = g(0)$. Then define the \emph{concatenation} of $f$
-    and $g$ (denoted $f * g$) to be the path in $X$ such that
-    \[
-      f * g (t) =
-      \begin{cases}
-        f(2t) & \text{if } 0 \leq t \leq \frac{1}{2} \\
-        g(2t - 1) & \text{if } \frac{1}{2} \leq t \leq 1
-      \end{cases}
-    \]
-    is a path in $X$.
-  \end{lemma}
-  \begin{proof}
-    Take $A = [0,1/2]$, $B = [1/2, 1]$, and apply the Gluing Lemma.
-  \end{proof}
-  \begin{definition}[Path connectedness]
-    A space $X$ is said to be \emph{path connected} if given any two
-    points $x_0, x_1 \in X$, there is a path in $X$ from $x_0$ to
-    $x_1$.
-  \end{definition}
-  Some nice straightforward results follow from the fact that path
-  connectedness is defined in terms of continuous functions:
-  \begin{theorem}
-    Let $X$ be a path-connected topological space, and let $f$ be a
-    continuous mapping to a topological space $Y$. Then $f(X)$ is
-    path-connected.
-  \end{theorem}
-  \begin{proof}
-    Let $u,v \in Y$. Then $\exists a,b \in X \st f(a) = u,\ f(b) = v$.
-    Since $X$ is path connected, there exists a path $g$ in $X$ from
-    $a$ to $b$. Then since $f$ is continuous, $f \circ g$ is a path
-    from $u$ to $v$ in $Y$.
-  \end{proof}
-  \begin{theorem}
-    Supposet that $\set{Y_i \mid i \in I}$ is a family of path
-    connected sets. Then if
-    \[
-      \bigcap_{i \in I} Y_i \neq \varnothing,
-    \]
-    then $Y = \bigcup_{i \in I} Y_i$ is path-connected.
-  \end{theorem}
-  \begin{proof}
-    Let $a,b \in Y$, and let $c \in \bigcap_{i \in I} Y_i$. Then
-    $\exists i,j \in I \st a \in Y_i, b \in Y_j$. Note that $c \in
-    Y_i, Y_j$ as well. Then take a path $f$ in $Y_i$ from $a$ to $c$,
-    and a path $g$ in $Y_j$ from $b$ to $c$. Then the path $h = f * g$
-    is a path from $a$ to $c$ in $Y$.
-  \end{proof}
-  \begin{theorem}
-    Let $X,Y$ be topological spaces. Then $X$ and $Y$ are path
-    connected iff $X \times Y$ is path connected.
-  \end{theorem}
-  \emph{Proof.}
-  \begin{iffproof}
-    \item Suppose $X,Y$ are path connected. $\forall x \in X,\ y \in
-      Y$, $X \times \set{y} \cong X$ and $\set{x} \times Y \cong Y$
-      (and thus each is path connected), and note $(X \times \set{y})
-      \cap (\set{x} \times Y) \neq \varnothing$, thus by theorem 2.5
-      their union is path connected. Now, let $y \in Y$ be fixed.
-      Observe that
-      \[
-        X \times Y = \bigcup_{x \in X} (X \times \set{y}) \cap
-        (\set{x} \times Y)
-      \]
-      Hence $X \times Y$ is path connected.
-    \item Suppose $X \times Y$ is path connected. Then since the
-      canonical projection maps are continuous, it follows that $X,Y$
-      are path connected (continuous image of a path connected set is
-      path connected). \qed
-  \end{iffproof}
-  \begin{theorem}
-    Every path connected space connected. Not every connected space is
-    path connected. Oh, also, any non-empty open connected subset of
-    $\RR$ is path connected.
-  \end{theorem}
-
-  \section{A Brief Discussion of Manifolds}
-
-  \begin{definition}[Manifolds]
-    Let $n \in \ZZ^{>0}$, and let $(M, \tau)$ be a topological space.
-    Then $M$ is called a manifold iff $M$ is Hausdorff, and $\forall m
-    \in M$, there exists a neighborhood $N$ of $m$ such that $N \cong
-    \mathring{D}^n = \set{x \in \RR^n \MID \norm{x} < 1}$.
-  \end{definition}
-  \begin{definition}[Connected Sum]
-    Let $S_1$, $S_2$ be compact connected 2-manifolds (surfaces), and
-    let $D_1 \subseteq S_1$, $D_2 \subseteq S_2$ with $D_1, D_2 \cong
-    D^2$. Let $h_1 : D_1 \to D^2$, and $h_2 : D_2 \to D^2$ be
-    homeomorphisms. Then define $\sim$ to be an equivalence relation
-    such that $x \sim h^{-1}_2 h_1(x)$ iff $x \in \partial D_1$, and
-    $x \sim x$ otherwise. Then $S_1 \# S_2$ is given by
-    \[
-      \frac{(S_1 - \mathring{D_1}) \cup (S_2 - \mathring{D_2})}{\sim}
-    \]
-  \end{definition}
-
-
-\end{adjustwidth}
-\section{Homotopy}
-\begin{adjustwidth}{1em}{1em}
-  We are now ready to introduce a concept that will be of fundamental
-  importance later on. In a nutshell, this is the idea of
-  \emph{equivalent maps}, as motivated by the following
-  uncharacteristically-unprofessional diagram:
-  % \begin{figure}[H]
-  %   \centering
-  %   \includegraphics[width=5cm,keepaspectratio=true]{sad_diagram.png}
-  %   \caption{I'm not as good with inkscape as Prof.\ Nelson is}
-  % \end{figure}
-  $f_0$ and $f_1$ are, in some sense, fundamentally not the same as
-  each other, as one contains a hole while the other does not. To make
-  this precise, we define the idea of homotopy equivalence:
-  \begin{definition}
-    Let $X,Y$ be topological spaces, and let $f_0, f_1 : X \to Y$.
-    Then say $f_0, f_1$ are \emph{homotopic} iff there is a continuous
-    map $F : X \times I \to Y$ such that $F(x,0) = f_0(x)$ and $F(x,1)
-    = f_1(x)$. In this case we write $f_0 \simeq f_1$, and call the
-    map $F$ a \emph{homotopy} between $f_0$ and $f_1$. For each $t \in
-    [0,1]$, we denote $F(x,t)$ by $f_t(x)$.
-  \end{definition}
-  Some part of me really just wants to draw a commutative diagram
-  here, but it doesn't quite feel appropriate. Anyways, note that a
-  homotopy essentially amounts to a path through the space of
-  continuous maps between topological spaces. Also, observe that our
-  definition might not yet be perfectly desirable, as it allows us to
-  make paths homotopic to points. Hence, we define the notion of a
-  \emph{relative homotopy}.
-  \begin{definition}
-    Let $X$ be a topological space, and let $A \subseteq X$. Suppose
-    that $f_0, f_1 : X \to Y$ are continuous. Then we say $f_0$ and
-    $f_1$ are \emph{homotopic relative to $A$} iff there exists a
-    homotopy $F : X \times I \to Y$ between $f_0$ and $f_1$ such that
-    $F(a,t)$ does not depend on $t$ for any $a \in A$. That is,
-    $\forall a \in A, t \in I$, $F(a,t) = f_0(a)$. In this case, we
-    say $F$ is a \emph{homotopy relative to $A$}, and we write $f_0
-    \simeq f_1 (\mrm{rel} A)$, or $f_0 \simeq_{\mrm{rel} A} f_1$.
-  \end{definition}
-  Less rigorously, this essentially amounts to the homotopy
-  \emph{leaving $A$ alone}. Note that if $A = \set{0,1}$, homotopy
-  relative to $A$ means that we can't always get some map ``over an
-  obstacle.'' We can now apply this new shiny tool to some
-  classifications of topological spaces.
-  \begin{definition}
-    Let $X$, $Y$ be topological spaces. We say $X$ and $Y$ are
-    \emph{of the same homotopy type} if there exist continuous maps $f
-    : X \to Y$, $g : Y \to X$ such that $gf \simeq 1 : X \to X$, $fg
-    \simeq 1 : Y \to Y$.
-  \end{definition}
-  Ok, there \emph{really} feels like there's some category nonsense
-  going on here. Anyways, note that we did \emph{not} use relative
-  homotopy here. That was 100\% intentional --- in a sense, we want
-  homotopy equivalence to encode information about retraction and
-  stretching that can be lossy in ways that homeomorphism cannot.
-  Homeomorphism is rigid about exact equivalence, homotopy equivalence
-  lets us fudge things a little bit. For instance, a m\"{o}bius band
-  is certainly not homeomorphic to a cylinder, whereas the two are
-  both homotopy equivalent to a circle.
-  \begin{definition}
-    A space $X$ is said to be \emph{contractible} if it is homotopy
-    equivalent to a point.
-  \end{definition}
-  \begin{definition}
-    A subset $A$ of a topological space $X$ is called a \emph{retract}
-    of $X$ iff there is a continuous map $r : X \to A$ such that
-    $r\imath = 1 : A \to A$, where $\imath$ is the inclusion map.
-    Equivalently, $r | A = 1$. Under these conditions, $r$ is called
-    an \emph{inclusion} map.
-  \end{definition}
-  %% Wait this is false I think. I think this might actually be true
-  %% for a deformation retract, though?
-  % Note that here, the continuity condition on $r$ essentially requires
-  % that we be shrinking our space in until it rests on the boundary.
-  \begin{definition}
-    A subset $A \subseteq X$ is called a \emph{deformation retract} of
-    $X$ if there is a retraction $r : X \to A$ such that $\imath r
-    \simeq 1 : X \to X$.
-  \end{definition}
-  If $A$ is a deformation retract of $X$, it follows that $A$ and $X$
-  are homotopy equivalent.
-\end{adjustwidth}
-\section{Towards the fundamental group}
-\begin{adjustwidth}{1em}{1em}
-  \subsection{Group Structure of Paths}
-  Recall that we defined the concatenation of two paths $f$ and $g$ to
-  be $f * g$, provided $f(1) = g(0)$. In preparation for a discussion
-  of the fundamental group, we wish to investigate this further. In
-  particular, we'll be interested in looking at the extent to which
-  equivalence classes of paths (under homotopy relative to a
-  particular choice of $A$) exhibit the structure of a group. This,
-  ultimately, will be what allows us to escape the sadness of
-  point-set topology, and transition to some truly beautiful
-  mathematics.
-  \begin{definition}
-    Let $X$ be a topological space, and let $f,g$ be paths in $X$. We
-    say $f$ and $g$ are \emph{equivalent} iff $f$ and $g$ are
-    homotopic relative to $\set{0,1}$, in which case we write $f \sim
-    g$. The equivalence classes of $f$ are denoted by $[f]$.
-  \end{definition}
-  Note that if $f$ and $g$ are equivalent, then the homotopy is some
-  continuous function $F: I \times I \to X$ such that
-  \begin{align*}
-    F(t,0) = f_0(t) \quad \text{and} &\quad F(t, 1) = f_1(t) \,\,\quad t
-    \in I\\
-    F(0,s) = f_0(0) \quad \text{and} &\quad F(1, s) = f_0(1) \quad s
-    \in I
-  \end{align*}
-  Hence, in a bit of an abuse of notation, we write $F : f_0 \sim
-  f_1$.
-  \begin{theorem}
-    Let $X$ be a topological space, and let $f,g,h$ be paths in $X$.
-    Then
-    \begin{enumerate}[label=\arabic*)]
-      \item $[f][g] = [f*g]$
-      \item $[f]([g][h]) = ([f][g])[h]$ (whenever the product is
-        defined --- note though that in general, $(f * g) * h \neq f *
-        (g * h)$. But, we have the next-best thing: if $f(1) = g(0)$
-        and $g(1) = h(0)$, then $(f * g) * h \sim f * (g * h)$).
-      \item If $x \in X$, then define $\epsilon_x : I \to X$ by
-        $\epsilon_x(t) = x$. Then $[\epsilon_x][f] = [f] =
-        [f][\epsilon_y]$ if $f$ begins at $x$ and ends at $y$.
-      \item Let $x = f(0)$, and $y = f(1)$. Then $[f][\ol{f}] =
-        [\epsilon_x]$, and $[\ol{f}][f] = [\epsilon_y]$.
-    \end{enumerate}
-  \end{theorem}
-  Hence, we see that the equivalence classes of paths on $X$
-  \emph{almost} behave like a group. If only multiplication were
-  always defined, and we had $x=y$\ldots
-  \subsection{The Fundamental Group}
-  The trick is to make it happen.
-  \begin{definition}
-    Let $X$ be a topological space, and let $f$ be a path in $X$. Then
-    $f$ is said to be \emph{closed} if $f(0) = f(1)$. If $f(0) = f(1)
-    = x$, then we say $f$ is \emph{based} at $x$.
-  \end{definition}
-  Oh look. We made it happen. How, you might ask? Well, observe:
-  \begin{definition}[Fundamental Group]
-    Let $X$ be a topological space, and let $x \in X$. Let $f$ be some
-    closed path based at $x$. Then define the \emph{fundamental group}
-    of $X$ with base point $x$ (denoted $\pi(X,X)$) to be $[f]$.
-  \end{definition}
-  That this is a group follows immediately from Theorem 5.1. Buckle
-  your seatbelts everyone, things are about to get \emph{really}
-  snazzy.
-  \begin{theorem}
-    Let $x,y \in X$. If there is a path in $X$ from $x$ to $y$, then
-    $\pi(X,x)$ and $\pi(X,y)$ are isomorphic.
-  \end{theorem}
-  \begin{proof}
-    Let $f$ be a path in $X$ from $x$ to $y$. Then for all $g \in
-    \pi(X,x)$, $[\ol{f}] * [g] * [f] = [\ol{f} * g * f]$ is an
-    equivalence class of paths in $\pi(X,y)$. Hence, define $\varphi :
-    \pi(X,x) \to \pi(X,y)$ by
-    \[
-      \varphi_{f}([g]) = [\ol{f} * g * f].
-    \]
-    Clearly, this is bijective (we can define $\varphi_{f}^{-1}(h) =
-    [f * h * \ol{f}]$, and note that $\varphi_f^{-1} \varphi =
-    1_{\pi(X,x)}$, $\varphi_f \varphi_f^{-1} = 1_Y$), and inherits the
-    group structure of $\pi(X,x)$ in its image (since it is a
-    conjugation). Thus it is a homomorphism.
-  \end{proof}
-  \begin{corollary}
-    Let $X$ be a path connected topological space. Then for all $x,y
-    \in X$, $\pi(X,x) \cong \pi(X,y)$.
-  \end{corollary}
-  Note that the requirement that $X$ be \emph{path} connected is
-  essential.
-  \subsection{Continuous Functions \& Fundamental Groups}
-  We want to understand how continuous functions affect the
-  fundamental group. First, we have the following three facts:
-  \begin{lemma}
-    Let $X$, $Y$ be topological spaces, and let $\varphi : X \to Y$ be
-    continuous. Then
-    \begin{enumerate}[label=\arabic*)]
-      \item If $f,g$ are paths in $X$, then $\varphi f$, $\varphi g$
-        are paths in $Y$.
-      \item If $f \sim g$, then $\varphi f \sim \varphi g$
-      \item If $f$ is a closed path in $X$ based at $x \in X$, then
-        $\varphi f$ is a closed path in $Y$ based at $\varphi(x)$
-    \end{enumerate}
-  \end{lemma}
-  From these facts, we might deduce that continuous maps are, on some
-  level, really just performing a sort of group homomorphism.
-  \begin{definition}[Induced Homomorphism]
-    Let $X, Y$ be topological spaces, and let $\varphi : X \to Y$ be
-    continuous. Then define the \emph{induced homomorphism} as
-    follows: for all $x \in X$, define $\varphi_* : \pi(X,x) = \pi(Y,
-    \varphi(x))$ such that if $f$ is a path based on $x$,
-    \[
-      \varphi_*([f]) = [\varphi f].
-    \]
-  \end{definition}
-  We referred to this as a homomorphism, so it better actually be one.
-  Let's prove it!
-  \begin{theorem}
-    Let $X,Y$ be topological spaces, and let $\varphi : X \to Y$ be
-    continuous. Then $\varphi_*$ is a homomorphism of groups.
-  \end{theorem}
-  \begin{proof}
-    Let $[f], [g] \in \pi(X,x)$. Then
-    \begin{align*}
-      \varphi_*\pn{[f]*[g]}
-      &= \varphi_*([f * g]) \\
-      &= [\varphi(f * g)] \\
-      &= [\varphi(f) * \varphi(g)] \tag{*}\\
-      &= [\varphi(f)] * [\varphi(g)]
-    \end{align*}
-    note that $(*)$ follows by simply cutting any representative path
-    halfway through, and doing the work. Hence, $\varphi_*$ is a group
-    homomorphism.
-  \end{proof}
-  A number of nice properties follow.
-  \begin{theorem}
-    Let $X,Y,Z$ be topological spaces, and let $\varphi : X \to Y$,
-    $\psi : Y \to Z$ be continuous maps. Then
-    \begin{enumerate}[label=\arabic*)]
-      \item $(\psi \varphi)_* = \psi_* \varphi_*$
-      \item If $1 : X \to X$ is the identity map then $1_*$ is the
-        identity homomorphism.
-      \item If $\varphi$ is a homeomorphism, then $\varphi_* :
-        \pi(X,x) \to \pi(Y, \varphi(x))$ is an isomorphism of groups.
-    \end{enumerate}
-  \end{theorem}
-  Instead of proving these, we make a remark about functors. Recall
-  the following definition:
-\end{adjustwidth}
-
 \chapter{Basic Topology}
-\begin{center}
-  {\scshape \Large Basic Algebraic Topology}
-
-  {\itshape Based on Kosniowski; Matveev}
-\end{center}
-\vspace{-.1cm}
-\hrulefill
 
 \begin{center}
   \begin{minipage}[H]{.4\linewidth}
@@ -1546,7 +1056,7 @@ h\circ g$, call $f$ idempotent.
   of as a \emph{theorem}. There's just one catch: if we really want to
   discard the metric, how are we going to define the notion of an
   ``open'' set? Topologies provide the answer.
-  \subsection{Onwards to Algebraic Topology}~
+  \subsection{Some definitions}~
   \vspace{-.75em}
   \begin{definition}
     Let $X$ be a set, and let $\mc U$ be a collection of subsets of
@@ -1988,7 +1498,7 @@ h\circ g$, call $f$ idempotent.
     $\pi_X$ and $\pi_Y$ are referred to as the \emph{product
       projections}. Note that both are continuous.
   \end{definition}
-  \section{Compactness, Continued}
+  \section{Compactness, Continued}~
   \begin{theorem}
     Let $(X, \tau)$ be a topological space, and let $S \subseteq X$.
     Then $S$ is compact in $(X, \tau)$ iff $S$ is compact under the
@@ -2199,10 +1709,7 @@ h\circ g$, call $f$ idempotent.
       \item Suppose $f$ is a homeomorphism. Then $f$ is a bijection.
     \end{iffproof}
   \end{proof}
-  Thus, we see that
-\end{adjustwidth}
-\section{Picking up where we left off}
-\begin{adjustwidth}{1em}{1em}
+  This part is actually not finished.
   \subsection{Some Theorems}
   We'll breeze briskly through some more point-set topology, then move
   on to the foundations of algebraic topology.
@@ -2435,9 +1942,7 @@ h\circ g$, call $f$ idempotent.
     path connected. Oh, also, any non-empty open connected subset of
     $\RR$ is path connected.
   \end{theorem}
-
-  \section{A Brief Discussion of Manifolds}
-
+  \section{A Brief Discussion of Manifolds}~
   \begin{definition}[Manifolds]
     Let $n \in \ZZ^{>0}$, and let $(M, \tau)$ be a topological space.
     Then $M$ is called a manifold iff $M$ is Hausdorff, and $\forall m
@@ -2622,6 +2127,7 @@ h\circ g$, call $f$ idempotent.
   \emph{almost} behave like a group. If only multiplication were
   always defined, and we had $x=y$\ldots
   \subsection{The Fundamental Group}
+
   The trick is to make it happen.
   \begin{definition}
     Let $X$ be a topological space, and let $f$ be a path in $X$. Then
@@ -2773,5 +2279,322 @@ h\circ g$, call $f$ idempotent.
     \mc F_a(\psi) \circ \mc F_a(\varphi)$. Hence $\mc F$ is a functor.
   \end{proof}
 \end{adjustwidth}
+
+\chapter{More Fundamental Group (Unfinished)}
+\begin{adjustwidth}{1em}{}
+  \section{Solutions to Some Exercises from Kosniowski}~
+  \subsection{Exercises 15.6}~
+  \begin{leftbar}
+    \begin{enumerate}
+      \item Show that two paths $f,g$ from $x$ to $y$ give rise to the
+        same isomorphism from $\pi(X,x)$ to $\pi(X,y)$ (i.e., $u_f =
+        u_g$) iff $[g * \ol{f}] \in \mb Z(\pi(X,x))$, where $\mb Z(G)$
+        denotes the center.
+      \item Let $u_f : \pi(X,x) \to \pi(X,y)$ be the isomorphism
+        determined by a path from $x$ to $y$. Prove that $u_f$ is
+        independent of $f$ iff $\pi(X,x)$ is abelian.
+    \end{enumerate}
+  \end{leftbar}
+  \textbf{Solutions}
+  \begin{enumerate}
+    \item We have
+      \[
+        u_f([\gamma]) = [\ol{f} * \gamma * f] \qquad \qquad
+        u_g([\gamma]) = [\ol{g} * \gamma * g].
+      \]
+      Thus, $u_f = u_g$ iff $\forall [\gamma] \in \pi(X,x)$
+      \begin{align*}
+        u_f([\gamma])
+        &= u_g([\gamma]) \\
+        [\ol{f} * \gamma * f]
+        &= [\ol{g} * \gamma * g] \\
+        [g] [\ol{f} * \gamma * f][\ol{f}]
+        &= [g][\ol{g} * \gamma * g][\ol{f}] \\
+        [g * \ol{f} * \gamma * f * \ol{f}]
+        &= [g * \ol{g} * \gamma * g * \ol{f}] \\
+        [g * \ol{f} * \gamma ]
+        &= [\gamma * g * \ol{f}]
+      \end{align*}
+      iff $[g * \ol{f}] \in \mb Z(\pi(X,x))$. \qed
+    \item $u_f$ is independent of $f$ iff $\forall [f], [g] \in
+      \pi(X,x)$, $u_f = u_g$, which (by the exercise above) occurs iff
+      $[g * \ol{f}] \in \mb Z(\pi(X,x))$, after which point it is a
+      straightforward exercise in Algebra to show that $\pi(X,x)$ is
+      necessarily abelian (follows readily because $[f], [g]$ were
+      taken to be arbitrary).
+  \end{enumerate}
+  \subsection{Exercisess 15.11}~
+  \begin{leftbar}
+    \begin{enumerate}
+     \item Give an example of an injective continuous map $\varphi : X
+       \to Y$ for which $\varphi_*$ is not injective.
+     \item Give an example of a surjective continuous map $\varphi : X
+       \to Y$ for which $\varphi_*$ is not surjective.
+     \item Prove that if $\varphi : X \to Y$ is continuous and $f$ is
+       a path from $x$ to $y$ then $\varphi_* u_f = u_{\varphi(f)}
+       \varphi$, where both sides of the equation above are maps of
+       the form $f : \pi(X,x) \to \pi(Y, \varphi(y))$, and $u_f$,
+       $u_{\varphi(f)}$ are the isomorphisms of fundamental groups
+       determined by $f$ and $\varphi(f)$.
+     \item Prove that two continuous mappings $\varphi, \psi : X \to
+       Y$, with $\varphi(x_0) = \psi(x_0)$ for some point $x_0 \in X$,
+       induce the same homomorphism from $\pi(X,x_0)$ to $\pi(Y,
+       \varphi(x_0))$ if $\varphi$ and $\psi$ are homotopic relative
+       to $x_0$.
+     \item Suppose that $A$ is a retract of $X$ with retraction $r : X
+       \to A$. Prove that $i_* : \pi(A,a) \to \pi(X,a)$ is a
+       momomorphism (where $i : A \to X$ denotes inclusion) and that
+       $r_* : \pi(X,a) \to \pi(A,a)$ is an epimorphism for any point
+       $a \in A$.
+     \item With the notation of (e), above, suppose that $i_*
+       \pi(A,a) \trianglelefteq \pi(X,a)$. Prove that $\pi(X,a)$ is
+       the direct product of the subgroups image $(i_*)$ and kernel
+       $(r_*)$.
+     \item Prove that if $A$ is a strong deformation retract of $X$
+       then the inclusion map $i : A \to X$ induces an isomorphism
+       $i_* : \pi(A,a) \to \pi(X,a)$ for any point $x \in A$.
+     \item Show that if $\varphi : X \to X$ is a continuous map with
+       $\varphi \simeq 1$ then $\varphi_* : \pi(X,x_0) \to \pi(X,
+       \varphi(x_0))$ is an isomorphism for each point $x_0 \in X$.
+    \end{enumerate}
+  \end{leftbar}
+  \textbf{Solutions:}
+  \begin{enumerate}
+    \item Consider $\varphi : S^1 \into D^2$. Note $\pi(S^1, x) \cong
+      \ZZ$, while $\pi(D^2,x) = 0$. Now $\ker(\varphi_*) = \ZZ$ so
+      $\varphi_*$ is not injective.
+    \item Consider $\varphi : D^2 \onto S^1$. Then $\varphi_*$ is the
+      inclusion map of the trivial group into $\ZZ$, which is clearly
+      not onto.
+    \item Ok, I'm pretty sure the claim is supposed to actually be
+      proving that $\varphi_* u_f = u_{\varphi(f)} \varphi'_*$, where
+      $\varphi_* : \pi(X,y) \to \pi(Y,\varphi(y))$, and $\varphi'_* :
+      \pi(X,x) \to \pi(X,\varphi(x))$. Proving the claim is
+      equivalent to showing that the following diagram commutes:
+      \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+          {\pi(X,x)} \arrow[r, "u_f"] \arrow[dd, "\varphi'_*"'] &
+          {\pi(X,y)} \arrow[dd, "\varphi_*"] \\
+          &  \\
+          {\pi(Y,\varphi(x))} \arrow[r, "u_{\varphi(f)}"'] &
+          {\pi(Y,\varphi(y))}
+        \end{tikzcd}
+        \caption{Commutative diagram for $\varphi_* u_f =
+          u_{\varphi(f)} \psi_*$}
+      \end{figure}
+      First, note that $\varphi(f)$ is a path from $\varphi(x)$ to
+      $\varphi(y)$. Let $[g] \in \pi(X,x)$. Then
+      \begin{align*}
+        \varphi_* (u_f([g]))
+        &= \varphi_* ([\ol{f} * g * f]) \\
+        &= [\varphi(\ol{f} * g * f)] \\
+        &= [\ol{\varphi(f)} * \varphi(g) *\varphi(f)] \\
+        &= u_{\varphi(f)}([\varphi(g)]) \\
+        &= u_{\varphi(f)}(\varphi'_*([g]))
+      \end{align*}
+      as desired.
+    \item We have $\varphi, \psi : X \to Y$, and $\exists x_0 \in X
+      \st$ $\varphi(x_0) = \psi(x_0)$, and $\varphi \htop[\set{x_0}]
+      \psi$. Thus, $\exists F : X \times [0,1] \to Y$ such that
+      $\forall x \in X$, $F(x,0) = \varphi(x)$, $F(x,1) = \psi(x)$,
+      and $F(x_0, t) = \varphi(x_0) = \psi(x_0)$ for all $t \in
+      [0,1]$.
+    \item
+    \item
+  \end{enumerate}
+  \section*{Some more theorems}~
+  \begin{theorem}
+    Let $\varphi, \psi : X \to Y$ be continuous mappings between
+    topological spaces and let $F : \varphi \simeq \psi$ be a
+    homotopy. If $f : I \to Y$ is the path from $\varphi(x_0)$ to
+    $\psi(x_0)$ given by $f(t) = F(x_0, y)$ then the homomorphisms
+    \[
+      \varphi_* : \pi(X, x_0) \to \pi(Y, \varphi(x_0)) \qquad
+      \text{and} \qquad \psi_* : \pi(X,x_0) \to \pi(Y, \psi(x_0))
+    \]
+    are related by $\psi_* = u_f \varphi_*$, where $u_f$ is the
+    isomorphism from $\pi(Y, \varphi(x_0))$ to $\pi(Y, \psi(x_0))$
+    determined by the path $f$.
+  \end{theorem}
+  \begin{proof}
+    Let $[g] \in \pi(X, x_0)$. WTS $[\psi g] = [\ol{f} * \phi g * f]$.
+    Observe that
+  \end{proof}
+\end{adjustwidth}
+
+\chapter{Homology and Cohomology}
+(This chapter based off Munkres). In the following chapter, we'll make
+some connections between algebraic topology (particularly, homology
+theory) and differential topology. The link will be differential
+forms, a formalism we construct as a natural way of treating the
+problem of differentiation and integration of general functions on
+$k$-manifolds in $\RR^n$.
+\section{Differential Forms}
+In our treatment, we will take a coordinate-free approach to
+differential forms. This confers the benefits of allowing us to work
+in a coordinate-free manner --- as we will see, just as we used
+\emph{operators} to define a coordinate-free approach to linear maps,
+so too will we use \emph{tensors} here to work with differential
+forms. However, this comes at the cost of requiring that we first
+treat Multilinear algebra, and stuff. Thankfully, Munkres' text is
+cohesive and clear in this regard.
+\subsection{Multilinear Algebra}
+Just as the concept of a linear map lies at the heart of Linear
+Algebra, the idea of a \emph{multilinear map} (commonly referred to as
+a ``tensor'') is the fundamental principle of multilinear algebra. The
+definitions to follow should make it clear that these maps are a
+natural and straightforward extension of the ideas we encounter in
+linear algebra. First, recall the definition of a linear functional.
+\begin{definition}[Linear Functional]
+  Let $\mc V$ be a vector space over a filed $\FF$, and let $f : \mc V
+  \to \FF$. Then $f$ is said to be \emph{linear} if $\forall v_1, v_2
+  \in \mc V$, $\forall c \in \FF$, we have
+  \begin{enumerate}[label=\arabic*.]
+    \item $f(cv_1) = cf(v_1)$
+    \item $f(v_1 + v_2) = f(v_1) + f(v_2)$.
+  \end{enumerate}
+\end{definition}
+This idea generalizes naturally to a multilinear map:
+\begin{definition}[Tensor]
+  Let $\mc V$ be a vector space over a field $\FF$, and let
+  $\mc V^k = \bigoplus_{i=1}^k V$. Then a function $f : V^k \to \FF$
+  is said to be \textbf{linear in the
+    $i$\textsuperscript{\textnormal{th}} variable} if, given fixed
+  vectors $v_j$ for $j \neq i$, the function
+  \[
+    T(v) = f(v_1, \ldots, v_{i-1}, v, v_{i+1}, \ldots, v_k)
+  \]
+  is a linear functional. $f$ is said to be \textbf{multilinear} if it
+  is linear in the $i\textsuperscript{th}$ variable for each $i$. Such
+  an $f$ is also called a \textbf{k-tensor} on $\mc V$, or a
+  \textbf{tensor of order $k$} on $\mc V$. We denote the set of all
+  $k$-tensors on $\mc V$ by $\mc{L}^k(\mc V)$. Note that in $\mc{L}^1
+  (\mc V)$, we recover the dual space of $\mc V$.
+\end{definition}
+We now show that, analogously to with linear transformations, tensors
+are determined uniquely by their values on basis elements.
+\begin{theorem}
+  Let $\mb e_1, \ldots, \mb e_n$ be a basis for $\mc V$. Then if $f,g
+  \in \mc{L}^k(\mc V)$, and if $\forall I = (i_1, \ldots, i_k)$ where
+  $\set{i_1, \ldots, i_k} \subseteq \set{1,\ldots,n}$, we have
+  \[
+    f(\mb e_{i_1}, \ldots, \mb e_{i_k}) = g(\mb e_{i_1}, \ldots, \mb
+    e_{i_k})
+  \]
+  then $f = g$.
+\end{theorem}
+It's worth noting that we place no restrictions on the ordering of
+$I$, and similarly do not mind if it contains repeated elements.
+\begin{proof}
+  Let $(\mb v_1, \ldots, \mb v_k)$ be an arbitrary $k$-tuple of
+  vectors in $\mc V$. Then we can express each $\mb v_i$ by
+  \[
+    \mb v_i = \sum_{j=1}^n c_{ij} \mb e_i.
+  \]
+  Hence
+  \begin{align*}
+    f(\mb v_1, \ldots, \mb v_k)
+    &= f\pn{\sum_{j_1=1}^n c_{1j_1}\mb e_{j_1}, \mb v_2, \ldots, \mb
+      v_k} \\
+    &= \sum_{j_1=1}^n c_{1j_1} f(\mb e_{j_1}, \mb v_2, \ldots, \mb
+      v_k) \\
+    &= \sum_{j_1=1}^n \sum_{j_2=1}^n c_{1j_1} c_{2j_2} f(\mb e_{j_1},
+      \mb e_{j_2}, \ldots, \mb v_k) \\
+    &= \sum_{j_1=1}^n c_{1j_1} \sum_{j_2=1}^n c_{2j_2}
+      \hspace{.25cm}\cdots\hspace{.25cm} \sum_{j_k=1}^n c_{kj_k} f(\mb
+      e_{j_1}, \mb e_{j_2}, \ldots, \mb e_{j_k}) \\
+    &= \sum_{1 \leq j_1, \ldots, j_k \leq n} c_{1j_1} c_{2j_2} \ldots
+      c_{kj_k} f(\mb e_{j_1}, \ldots, \mb e_{j_k}) \\
+    &= \sum_{1 \leq j_1, \ldots, j_k \leq n} c_{1j_1} c_{2j_2} \ldots
+      c_{kj_k} g(\mb e_{j_1}, \ldots, \mb e_{j_k}) \\
+    &= g(\mb v_1, \ldots, \mb v_k)
+  \end{align*}
+  as desired.
+\end{proof}
+Perhaps the main takeaway here is that indices can be a bit of a
+mess.\footnote{I tried to think of a way to index cleverly so as to
+  express this more cleanly, but the best I got was turning the
+  $c_{1j_1} c_{2j_2} \cdots c_{kj_k}$ into a $\prod_{i=1}^k c_{ij_i}$,
+  which is definitely not better.} Hence, I'll elect to formally
+define $k$-tuples of indices below, so that we don't have to keep
+definining them whenever we want to use them.
+\begin{definition}[Indexing tuples]
+  Let $\mc I(n) = \set{1, \ldots, n}$. Then if $I = \pn{i_1, \ldots,
+    i_k}$, where $\set{i_1, \ldots, i_k} \subseteq \mc I(n)$ (with
+  some elements possibly repeated), we call $I$ a \textbf{$k$-index}.
+  We'll denote the set of all $k$-indices chosen from $n$ elements by
+  $\mc I_k(n)$.
+\end{definition}
+Let $I$ be a $k$-index. Then whenever the meaning is understood, we
+will denote a tuple of vectors like $(\mb v_1, \ldots, \mb v_k)$ by
+$\mb v_{I}$, and similarly for other objects as is appropriate.
+
+One might recall from linear algebra that for a vector space $\mc V$,
+$\mc L^1(\mc V)$ is itself a vector space, called the \emph{dual
+  space} of $\mc V$. In fact, it turns out that $\mc L^k(\mc V)$ is a
+vector space for all $k$. As such, we would like to endow it with a
+basis. We define a good candidate in the following definition (which
+is also sort of a theorem):
+\begin{definition}[Elementary $k$-tensor]
+  Let $\mc V$ be a vector space with basis $\mb e_1, \ldots, \mb e_n$,
+  and let $I \in \mc I_k(n)$. Then there exists a unique $\phi_I \in
+  \mc L^k(\mc V)$ such that $\forall J \in \mc I_k(n)$,
+  \[
+    \phi_I(\mb e_J) =
+    \begin{cases}
+      0 & \text{if } I \neq J \\
+      1 & \text{if } I = J
+    \end{cases}.
+  \]
+  We call such a $\phi_I$ an \textbf{elementary $k$-tensor on $\mc
+    V$}. Note the sense in which these can be loosely thought of as a
+  generalization of the kronecker delta. \\
+  \rule{0.4\linewidth}{.4pt}\\
+  \phantom{h} N.B. --- Recall that by $\mb e_J$, we mean $(\mb
+  e_{j_1}, \ldots, \mb e_{j_k})$.
+\end{definition}
+In claiming existence and uniqueness, we really ought to provide a
+proof. And so we shall.
+\begin{proof}
+  If we can show existence, uniqueness will follow from the theorem
+  stated at the beginning of the chapter. Hence, we show existence.
+  First, note that for $k = 1$, $\phi_i$ is just the kronecker delta
+  with one entry fixed:
+  \[
+    \phi_i(\mb e_j) = \delta_{ij}
+  \]
+  thus, for the general case, we simply take
+  \begin{align*}
+    \phi_I(\mb v_1, \ldots, \mb v_k)
+    &= \prod_{\alpha = 1}^k \phi_{i_\alpha}(\mb v_i)  \\
+    &= [\phi_{i_1}(\mb v_1)] \cdot [\phi_{i_2}(\mb v_2)] \cdots
+      [\phi_{i_k} (\mb v_k)]
+  \end{align*}
+  Now, note that
+  \begin{align*}
+    \phi_I(\mb e_J)
+    &= \prod_{\alpha=1}^k [\phi_{i_\alpha}(\mb e_{j_\alpha})]
+  \end{align*}
+  which is $1$ iff $i_{\alpha} = j_{\alpha}$ for all $\alpha$, and 0
+  otherwise. Hence, we have the desired property for $\phi_I$.
+\end{proof}
+
+% \chapter{Basic Knot Theory Stuff}
+% \section{Some Algebraic Things}
+% Recall the ring axioms:
+% \begin{definition}[Ring]
+%   Call $\ring{R}$ a \emph{ring} if
+%   \begin{enumerate}
+%     \item $\group{R}$ is an abelian group,
+%     \item $\groupwop{R}{\cdot}$ is a monoid, and
+%     \item The usual distributive laws hold --- i.e., $\forall a,b,c
+%       \in R$, $(a+b)\cdot c = a\cdot c + b\cdot c$, $a \cdot (b+c) =
+%       a\cdot b + a \cdot c$
+%   \end{enumerate}
+% \end{definition}
+
+% \chapter{Covering Spaces}
+
 
 \end{document}
