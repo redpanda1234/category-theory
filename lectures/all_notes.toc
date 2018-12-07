@@ -44,3 +44,6 @@
 \contentsline {chapter}{\numberline {6}Homology and Cohomology}{43}
 \contentsline {section}{\numberline {6.1}Differential Forms}{43}
 \contentsline {subsection}{\numberline {6.1.1}Multilinear Algebra}{43}
+\contentsline {subsubsection}{\numberline {6.1.1.1}Tensors}{43}
+\contentsline {subsubsection}{\numberline {6.1.1.2}Alternating Tensors}{47}
+\contentsline {subsection}{\numberline {6.1.2}Introducing the Wedge Product}{49}

@@ -9,6 +9,11 @@
 
 % \newcommand{\ob}{\mrm{ob}}
 % \newcommand{\homm}{\mrm{hom}}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+% \newcommand{\sign}{\ensuremath\mrm{sgn}}
+\DeclareMathOperator{\sgn}{sgn}
 
 \renewpagestyle{main}{
   \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
@@ -2424,28 +2429,38 @@ h\circ g$, call $f$ idempotent.
 \end{adjustwidth}
 
 \chapter{Homology and Cohomology}
-(This chapter based off Munkres). In the following chapter, we'll make
-some connections between algebraic topology (particularly, homology
-theory) and differential topology. The link will be differential
-forms, a formalism we construct as a natural way of treating the
-problem of differentiation and integration of general functions on
-$k$-manifolds in $\RR^n$.
+(This chapter based off Munkres' \emph{Analysis on Manifolds}, and
+Roman's \emph{Advanced Linear Algebra}). In the following chapter,
+we'll make some connections between algebraic topology (particularly,
+homology theory) and differential topology. The link will be
+differential forms, a formalism we construct as a natural way of
+treating the problem of differentiation and integration of general
+functions on $k$-manifolds in $\RR^n$.
 \section{Differential Forms}
-In our treatment, we will take a coordinate-free approach to
-differential forms. This confers the benefits of allowing us to work
-in a coordinate-free manner --- as we will see, just as we used
-\emph{operators} to define a coordinate-free approach to linear maps,
-so too will we use \emph{tensors} here to work with differential
-forms. However, this comes at the cost of requiring that we first
-treat Multilinear algebra, and stuff. Thankfully, Munkres' text is
-cohesive and clear in this regard.
+In our treatment, we will formulate differential forms in terms of
+alternating $k$-tensors. To this end, we must first understand what
+exactly tensors are, hence we will take some time here to examine
+multilinear algebra.
+% This confers the benefits of allowing us to work in a coordinate-free
+% manner --- as we will see, just as we used \emph{operators} to define
+% a coordinate-free approach to linear maps, so too will we use
+% \emph{tensors} here to work with differential forms. However, this
+% comes at the cost of requiring that we first treat Multilinear
+% algebra, and stuff. Thankfully, Munkres' text is cohesive and clear in
+% this regard.
 \subsection{Multilinear Algebra}
 Just as the concept of a linear map lies at the heart of Linear
 Algebra, the idea of a \emph{multilinear map} (commonly referred to as
-a ``tensor'') is the fundamental principle of multilinear algebra. The
-definitions to follow should make it clear that these maps are a
-natural and straightforward extension of the ideas we encounter in
-linear algebra. First, recall the definition of a linear functional.
+a ``tensor'') is the fundamental principle of multilinear algebra.
+Here we will examine two constructions: first, the intuitive (but
+coordinate-dependent) approach given by Munkres, and then, if time
+permits, the coordinate-free approach given in Roman. The
+coordinate-dependent approach is very tangible, and certainly makes it
+clear that tensors are a natural and straightforward extension of the
+ideas we encounter in linear algebra. However, coordinate-free
+definitions are generally cleaner.
+\subsubsection{Tensors}
+First, recall the definition of a linear functional.
 \begin{definition}[Linear Functional]
   Let $\mc V$ be a vector space over a filed $\FF$, and let $f : \mc V
   \to \FF$. Then $f$ is said to be \emph{linear} if $\forall v_1, v_2
@@ -2579,22 +2594,285 @@ proof. And so we shall.
   which is $1$ iff $i_{\alpha} = j_{\alpha}$ for all $\alpha$, and 0
   otherwise. Hence, we have the desired property for $\phi_I$.
 \end{proof}
+\begin{theorem}
+  The elementary $k$-tensors form a basis for $\mc L^k(\mc V)$.
+\end{theorem}
+\begin{proof}
+  Let $f \in \mc{L}^k(\mc V)$ be arbitrary. WTS $f$ can be expressed
+  uniquely as a linear combination of $\phi_I$. $\forall I \in \mc
+  I_k(n)$, define $d_I = f(\mb e_I)$. Now, let $g \in \mc{L}^k(\mc V)$
+  be given by the linear combination
+  \begin{align*}
+    g
+    &= \sum_{I \in \mc I_k(n)} d_I \phi_I
+  \end{align*}
+  Note that for every $I \in \mc I_k(n)$, we have $f(\mb e_I) = g(\mb
+  e_I)$ (by definition), and hence $f = g$ by Theorem 6.1.1. Thus $f$
+  can be represented uniquely as a linear combination of $\phi_I$, so
+  the $\phi_I$ form a basis.
+\end{proof}
+\begin{definition}[Tensor Product]
+  Let $f \in \mc{L}^k(\mc V),\ g \in \mc{L}^\ell(\mc V)$. Then define
+  $f \otimes g$ (read ``$f$ tensor $g$'') to be the $k+\ell$ tensor on
+  $\mc V$ given by
+  \[
+    (f \otimes g)(\mb v_1, \ldots, \mb v_{k + \ell}) = f(\mb v_1,
+    \ldots, \mb v_k) \cdot g(\mb v_{k+1}, \ldots, \mb v_{k+\ell}).
+  \]
+\end{definition}
+By the distributive laws and commutativity of multiplication, this is
+readily verified to be multilinear.
+\begin{theorem}
+  Let $f,g,h$ be tensors on $\mc V$. Then
+  \begin{enumerate}[label=(\arabic*)]
+    \item $f \otimes (g \otimes h) = (f \otimes g) \otimes h$
+    \item $(cf) \otimes g = c(f \otimes g) = f \otimes (cg)$
+    \item If $f$ and $g$ have the same order, then
+      \begin{align*}
+        (f+g) \otimes h
+        &= f \otimes h + g \otimes h, \\
+        h \otimes (f+g)
+        &= h \otimes f + h \otimes g.
+      \end{align*}
+    \item Given a basis $\mb e_1, \ldots, \mb e_n$ for $\mc V$ and $I
+      \in \mc I_k(n)$, the corresponding elementary tensors $\phi_I$
+      satisfy
+      \begin{align*}
+        \phi_I
+        &= \phi_{i_1} \otimes \phi_{i_2} \otimes \cdots \otimes
+          \phi_{i_k} \\
+        &= \bigotimes_{i \in I} \phi_i.
+      \end{align*}
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Each of (1)-(3) follows trivially from distributivity /
+  commutativity of $+,\cdot$, while we recognize (4) as our
+  construction of $\phi_I$.
+\end{proof}
+We might wonder how this multilinear structure interacts with the
+familiar structure of linear transformations on a space. The following
+theorems begin to sketch out an answer.
+\begin{theorem}
+  Let $T : \mc V \to \mc W$ be a linear transformation. We define the
+  \textbf{dual transformation}
+  \[
+    T^\star : \mc{L}^k(\mc W) \to \mc{L}^k(\mc V)
+  \]
+  such that $\forall (\mb v_1, \ldots, \mb v_k)$, $f \in \mc{L}^k(\mc
+  W)$
+  \[
+    (T^\star f)(\mb v_1, \ldots, \mb v_k) = f(T(\mb v_1), \ldots,
+    T(\mb v_k)).
+  \]
+\end{theorem}
+That is, $T^\star$ is the function such that the following diagram
+commutes:
+\begin{figure}[H]
+  \centering
+  \begin{tikzcd}
+    \mc V^k \arrow[rr, "T \times \cdots \times T"] \arrow[rrd,
+    "T^\star f"'] &  & \mc W^k  \arrow[d, "f"] \\
+    &  & \RR
+  \end{tikzcd}
+\end{figure}
+where it is understood that $T\times \cdots \times T$ is the map such
+that $(\mb v_1, \ldots, \mb v_k) \xmapsto{T^k} (T\mb v_1, \ldots, T\mb
+v_k)$. Clearly, since $T$ is linear and $f$ is multilinear, we should
+expect some nice properties to be conserved.
+\begin{theorem}
+  Let $T : \mc V \to \mc W$ be linear, and let
+  \[
+    T^\star : \mc{L}^k(\mc W) \to \mc{L}^k(\mc V)
+  \]
+  be the standard dual transformation. Then
+  \begin{enumerate}[label=(\arabic*)]
+    \item $T^\star$ is linear.
+    \item $T^\star(f \otimes g) = T^\star f \otimes T^\star g$
+    \item If $S : \mc W \to \mc X$ is a linear transformation, then
+      \[
+        (S \circ T)^\star f = T^\star (S^\star f).
+      \]
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  The proofs are fairly straightforward. Let $f,g \in \mc L^k(\mc W)$,
+  let $c \in \FF$, and let $I \in \mc I_k(n)$. Then
+  \begin{enumerate}[label=(\arabic*)]
+    \item Note
+      \begin{align*}
+        T^\star(c(f+g)) (\mb v_I)
+        &= c(f + g) (T \mb v_I) \\
+        &= cf(T \mb v_I) + cg(T \mb v_I) \\
+        &= c(T^\star f)(\mb v_I) + c(T^\star g)(\mb v_I)
+      \end{align*}
+      thus $T^\star$ is linear.
+    \item We have
+      \begin{align*}
+        T^\star(f \otimes g)
+        &= (f \otimes g)(T(\mb v_I)) \\
+        &= f(T \mb v_I) \cdot g(T \mb v_I) \\
+        &= T^\star f \otimes T^\star g
+      \end{align*}
+      as desired.
+    \item Finally,
+      \begin{align*}
+        ((S \circ T)^\star f )\mb v_I
+        &= f((S \circ T)(\mb v_I)) \\
+        &= f(S(T \mb v_I)) \\
+        &= T^\star (S^\star f)
+      \end{align*}
+      as desired.
+  \end{enumerate}
+\end{proof}
+\subsubsection{Alternating Tensors}
+  Alternating tensors are simply tensors that behave in a certain
+  manner when we permute the input vectors. To make this formal, we
+  should recall some facts about permutations.
+  \begin{definition}[Elementary permutation]
+    Let $\sigma \in S_k$, where $S_k$ is the symmetric group on a
+    finite set of $k$ elements, labeled $\set{1, \ldots, n}$. Then if
+    $\sigma(j) = j$ for $i \neq j \neq i+1$, and
+    \[
+      \sigma(i)= i+1 \qquad \text{and} \qquad \sigma(i+1) = i
+    \]
+    (that is, $\sigma$ swaps $i$ and $i+1$), then we call $\sigma$ an
+    \textbf{elementary permutation}, and denote $\sigma$ by $e_i$.
+  \end{definition}
+  clearly, we can write every element of $S_k$ as a product of
+  elementary permutations. Another important property of a permutation
+  is its sign, as we define below:
+  \begin{definition}[Inversions and sign]
+    Let $\sigma \in S_k$. Define an \textbf{inversion} to be a pair of
+    integers $(i,j)$ such that $i<j$, and $\sigma(i) > \sigma(j)$. We
+    define the \textbf{sign} of $\sigma$ (denoted $\sgn(\sigma)$) to
+    be $+1$ if the number of inversions is even, and $-1$ if the
+    number of inversions is odd.
+  \end{definition}
+  Some basic facts follow:
+  \begin{lemma}
+    Let $\sigma, \tau \in S_k$.
+    \begin{enumerate}
+      \item If $\sigma$ is a composition of $m$ elementary
+        permutations, then $\sgn(\sigma) = (-1)^m$.
+      \item $\sgn(\sigma \circ \tau) = (\sgn \sigma) \cdot (\sgn
+        \tau)$
+      \item $\sgn \sigma^{-1} = \sgn \sigma$
+      \item If $p \neq q$, and $\tau$ exchanges $p$ and $q$ while
+        leaving everything else fixed, then $\sgn \tau = -1$.
+    \end{enumerate}
+  \end{lemma}
+  Note that (d) indicates that the sign of a permutation is actually
+  label-independent.
+  \begin{definition}[Alternating tensor]
+    Let $f \in \mc{L}^k(\mc V)$. If $\sigma \in S_k$, we define
+    \[
+      f^\sigma(\mb v_1, \ldots, \mb v_k) = f(\mb v_{\sigma(1)},
+      \ldots, \mb v_{\sigma(k)}).
+    \]
+    Let $e$ be an elementary permutation. Then we call $f$
+    \textbf{symmetric} iff $f^e = f$, and call it \textbf{alternating}
+    iff $f^e = -f$. We denote the set of alternating $k$-tensors on
+    $\mc V$ by $\mc A^k(\mc V)$.
+  \end{definition}
+  Note that for $k=1$, we recover the dual space. For an example of an
+  alternating $k$-tensor, note that $f(\mb v_1, \ldots, \mb v_k) =
+  \det \bk{\mb v_1\ \ldots\ \mb v_k}$ works. More on this in a bit.
+  Now, we offer some lemmas (without proof) which shall become
+  important later.
+  \begin{lemma}
+    Let $k \in \NN$ be given, and let $f \in \mc L^k(\mc V)$, and
+    $\sigma, \tau \in S_k$. Then
+    \begin{enumerate}
+      \item The map $f \to f^\sigma$ is an automorphism on $\mc
+        L^k(\mc V)$, and satisfies
+        \[
+          (f^\sigma)^\tau = f^{\tau \circ \sigma}
+        \]
+      \item $f$ is alternating iff $f^\sigma = (\sgn \sigma)f$ for all
+        $\sigma$.
+      \item If $f$ is alternating and $\mb v_p = \mb v_q$ with $p \neq
+        q$, then $f(\mb v_1, \ldots, \mb v_k) = 0$.
+    \end{enumerate}
+  \end{lemma}
+  We now state some lemmas about alternating $k$-tensors that are
+  analogous to those we gave earlier for $k$-tensors in general.
+  First, we need to define a bit of notation
+  \begin{definition}[Ascending $k$-tuple]
+    Let $k,n \in \NN$ be given, and let $I \in \mc I_k(n)$. Then we
+    say that $I$ is \textbf{an ascending $k$-tuple} if $i_1 \leq i_2
+    \leq \cdots \leq i_k$. We denote the set of all ascending
+    $k$-tuples by $[\mc I_k(n)]$, and elements of $[\mc I_k(n)]$ by
+    $[I]$.
+  \end{definition}
+  Then we have
+  \begin{lemma}
+    Let $\mc V$ be a vector space, with basis $\mb e_1, \ldots, \mb
+    e_n$. Let $f,g \in \mc A^k(\mc V)$. Then $f = g$ iff $\forall [I]
+    \in [\mc I_k(n)]$,
+    \[
+      f(\mb e_{[I]}) = g(\mb e_{[I]})
+    \]
+  \end{lemma}
+  \begin{theorem}[Elementary Alternating $k$-tensor]
+    Let $\mc V$ be a vector space with basis $\mb e_1, \ldots, \mb
+    e_n$. Then $\forall [I] \in [\mc I_k(n)]$, there exists a unique
+    $\psi_I \in \mc L^k(\mc V)$ such that $\forall [J] \in [\mc
+    I_k(n)]$,
+    \[
+      \psi_{[I]}(\mb e_{[J]}) =
+      \begin{cases}
+        0 & \text{if } [I] \neq [J] \\
+        1 & \text{if } [I] = [J]
+      \end{cases}
+    \]
+    and the set of $\psi_{[I]}$ (called the \textbf{elementary
+      alternating $k$-tensors}) forms a basis for $\mc A^k(\mc V)$.
+    Furthermore, $\psi_{[I]}$ satisfies
+    \[
+      \psi_{[I]} = \sum_{\sigma \in S_k} (\sgn \sigma) (\phi_I)^\sigma
+    \]
+    and for a given $k$, there are
+    \[
+      {n \choose k} = \frac{n!}{k!(n-k)!}
+    \]
+    such $\psi_{[I]}$.
+  \end{theorem}
+  \begin{definition}[Determinant]
+    Let $X = [\mb x_1\ \cdots\ \mb x_n]$ be a $n\times n$ matrix, and
+    let $\psi_{[I]} \in \mc A^n(\mc V)$ be elementary. Note that
+    $\psi_{[I]}$ is unique. Then define
+    \begin{align*}
+      \det X
+      &= \psi_{[I]} (\mb x_{[I]}) \\
+      &= \sum_{\sigma \in S_k} (\sgn \sigma) \phi_I(\mb x_{\sigma(1)},
+        \ldots, \mb x_{\sigma(n)}) \\
+      &= \sum_{\sigma \in S_k} (\sgn \sigma) x_{1,\sigma(1)}
+        x_{2,\sigma(2)} \cdots x_{n,\sigma(n)}
+    \end{align*}
+  \end{definition}
+  \begin{corollary}
+    Given $\RR^n$ with the usual basis, let $\psi_{[I]} \in \mc
+    A^k(\mc RR^n)$. Then given a matrix $X = [\mb x_1\ \cdots\ \mb
+    x_n]$, then
+    \[
+      \psi_I(\mb x_1, \ldots, \mb x_n) = \det X_I
+    \]
+    where $X_I$ is the matrix whose rows are the rows of $X$ indexed
+    at $I$.
+  \end{corollary}
+  \subsection{Introducing the Wedge Product}
+  We would like $\mc A^k(\mc V)$ to be closed under $\otimes$, but
+  unfortunately, this very rarely happens. As such, we define a new
+  notion of product, called the ``wedge product'' or ``exterior
+  product'', denoted by $\wedge$.
+  \begin{definition}[Wedge Product]
+    Let $f,g \in \mc A^k(\mc V)$. Then define
+    \[
+      f \wedge g = \frac{1}{k!\ell!} \sum_{\sigma \in S_{k \cdot
+          \ell}} (\sgn \sigma) (f \otimes g)^\sigma
+    \]
 
-% \chapter{Basic Knot Theory Stuff}
-% \section{Some Algebraic Things}
-% Recall the ring axioms:
-% \begin{definition}[Ring]
-%   Call $\ring{R}$ a \emph{ring} if
-%   \begin{enumerate}
-%     \item $\group{R}$ is an abelian group,
-%     \item $\groupwop{R}{\cdot}$ is a monoid, and
-%     \item The usual distributive laws hold --- i.e., $\forall a,b,c
-%       \in R$, $(a+b)\cdot c = a\cdot c + b\cdot c$, $a \cdot (b+c) =
-%       a\cdot b + a \cdot c$
-%   \end{enumerate}
-% \end{definition}
-
-% \chapter{Covering Spaces}
-
+  \end{definition}
 
 \end{document}
