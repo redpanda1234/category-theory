@@ -1,8 +1,28 @@
 \documentclass{fkbook}
 
 \newcommand{\plogo}{\fbox{$\mathcal{FK}$}} % Generic dummy publisher logo
-
+% \usepackage{sout}
 \usepackage{tikz-cd}
+
+% And so on with definitions!
+\newtheoremstyle{snazzydefinition}  % name
+    {1.5em}                         % Space above
+    {0em}                          % Space below
+    {\rmfamily}                     % Body font
+    {}                              % Indent amount
+    {\scshape}                      % Theorem head font
+    {.}                             % Punctuation after theorem head
+    {.5em}                          % Space after theorem head
+    {}  % Theorem head spec (can be left empty, meaning ‘normal’)
+
+\theoremstyle{snazzydefinition}
+
+\newtheorem{examplex}{Example}
+
+\newenvironment{example}
+  {\pushQED{\oldqed}\renewcommand{\qedsymbol}{$\triangle$}\examplex}
+  {\popQED\endexamplex}
+
 
 \renewcommand{\dom}{\mrm{dom}}
 \renewcommand{\cod}{\mrm{cod}}
@@ -11,6 +31,8 @@
 % \newcommand{\homm}{\mrm{hom}}
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
+
+\mdtheorem[style=theoremstyle]{joke}{Joke}
 
 % \newcommand{\sign}{\ensuremath\mrm{sgn}}
 \DeclareMathOperator{\sgn}{sgn}
@@ -2795,6 +2817,8 @@ expect some nice properties to be conserved.
         q$, then $f(\mb v_1, \ldots, \mb v_k) = 0$.
     \end{enumerate}
   \end{lemma}
+
+
   We now state some lemmas about alternating $k$-tensors that are
   analogous to those we gave earlier for $k$-tensors in general.
   First, we need to define a bit of notation
@@ -2872,6 +2896,171 @@ expect some nice properties to be conserved.
       f \wedge g = \frac{1}{k!\ell!} \sum_{\sigma \in S_{k \cdot
           \ell}} (\sgn \sigma) (f \otimes g)^\sigma
     \]
+  \end{definition}
+  \begin{joke}
+    Let $\mc V$ be a finite-dimensional inner product space, with
+    $\dim(\mc V) = 10$. A determinant walks into $\mc V^\star$, and
+    asks, ``how much for a linear map?'' The $\star$-tender says,
+    ``What do you mean? They're all free! This \emph{is} a module,
+    after all.''
+
+    The determinant replies, ``Great! I'll take $100$, then.
+    Linearly-independent mind you.'' The $\star$-tender furrows his
+    brow, and says, ``Hmm\ldots sorry, I'm actually not sure I can do
+    that. Under that constraint, I can only get you $m$ at a time,
+    where $0 \leq m \leq 10$.''
+
+    The determinant replies, ``Oh, I see. In that case, I'll just take
+    tensor.''
+
+    And they all $\otimes$'ed happily ever after. \qed
+  \end{joke}
+
+  \subsection{A Coordinate-Free Approach}
+  We pursue a slightly terser/more formal version of the treatment
+  that apperas in Roman's \emph{Advanced Linear Algebra} book. First,
+  recall the definition of a \emph{universal pair}:
+  \begin{definition}
+    Let $\mb{C,D}$ be small categories, and let $c \in \ob(\mb C)$.
+    Let $\mc S : D \to C$ be a functor. Let $u : c \to \mc S_{o} (r)$,
+    and $r \in \ob(\mb D)$. Then we call the pair $\pn{r,u}$ a
+    \emph{universial arrow from $c$ to $\mc S$} iff $\forall d \in
+    \ob(\mb D)$, $f : c \to \mc S_o(d)$, there exists a unique
+    morphism $f' \in \homm_{\mb D}(r,d)$ such that
+    \[
+      \mc S_{a}(f') \circ u = f.
+    \]
+  \end{definition}
+  As always, this statement makes a lot more sense when given by a
+  diagram. Since I don't want to struggle with TikZ for three hours,
+  and I don't have access to a drawing tablet yet, I'll simply include
+  a low-res photo of a diagram I drew by hand (Labeled Figure
+  \oldref{fig:universal}; might be on the next page) and a
+  less-complete version of the diagram here (lacks arrows showing
+  correspondence of morphisms):
+  \begin{figure}[h]
+    \centering
+    \begin{tikzcd}
+      {\color{red}\mc S_o(e)} &  &  &  & \color{red} e \arrow[llll,
+      "\mc S_o"', dotted, color=red] &  \\
+      &  &  &  &  &  \\
+      c \arrow[r, "u"] \arrow[rdd, "f"'] \arrow[uu, "g"] &
+      {\color{blue} \mc S_o(r)} \arrow[dd, "\mc S_a(f')", color=green]
+      \arrow[luu, "\mc S_a(g')"', color=red] &  &  &  & \color{blue} r
+      \arrow[llll, "\mc S_o"', dotted, color=blue] \arrow[luu, "g'"',
+      color=red] \arrow[dd, "f'",color=green] \\
+      &  &  &  &  &  \\
+      & \color{green}\mc S_o(d) &  &  &  & \color{green}d \arrow[llll,
+      "\mc S_0"', dotted,color=green]
+    \end{tikzcd}
+    \caption{Universal Pair}
+    \label{fig:upair}
+  \end{figure}
+
+  The main idea is that, for an object $c$ in category $\mb C$ and a
+  functor from $\mb D$ to $\mb C$, all of the information about
+  morphism structure between $c$ and $\mrm{Im}(\mb S_o)$ is contained
+  in the morphism structure of $\mb D$. Essentially, as far as $\mc S$
+  is concerned, any of the structure involving morphisms on $c$ is
+  already encoded by the morphism structure on $\mc S_o(r)$.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth, keepaspectratio=true]{universal_diagram.png}
+    \caption{Universal Arrow from $c$ to $\mc S$}
+    \label{fig:universal}
+  \end{figure}
+  Here's yet another perspective (this is the one given in Roman).
+  First, let's just zoom in on one of the commutative triangles in
+  $\mb C$.
+  \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+      c \arrow[rr, "u"] \arrow[rrdd, "f"'] &  & \color{blue} \mc
+      S_o(r) \arrow[dd, "\mc S_a(f')", color=green] \\
+      &  &  \\
+      &  & \color{green}\mc S_o(d)
+    \end{tikzcd}
+    \caption{Zoomed in perspective on a commutative triangle}
+    \label{fig:universaltriangle}
+  \end{figure}
+  If the category we're dealing with has some underlying set
+  structure, then one way we can think about the morphisms here is in
+  terms of how ``well'' they preserve information from the domain, as
+  measured by how one-to-one they are. In this example, this would
+  look as follows: because $(\mc S_a(f') \circ u) = f$, for all $a,b
+  \in c$, we have
+  \[
+    f(a) \neq f(b) \implies u(a) \neq u(b).
+  \]
+  As such, any ``information'' about $c$ that is preserved by $f$ must
+  also be preserved by $u$. Or, as Roman says, ``except for labeling
+  differences, any information about [$c$] that is contained in [$f$]
+  is also contained in [$u$]. [And if $\mc S_a(f')$] is injective,
+  then the \emph{only} difference between [$u$ and $f$] is the values
+  of the labels''. In this context, the statement that $(r,u)$ is a
+  universal pair can be interpreted as ``$u$ contains exactly the same
+  information as is contained in the entire family of morphisms
+  $\mrm{Im}(\mc S_a)$''. Now for a few really snazzy examples.
+  \begin{leftbar}\vspace{-1em}
+    \begin{example}[Bases]
+      Let $\mb S = \mb{Vect}(\FF)$ be the category of all vector spaces
+      over the field $\FF$ with morphisms linear transformations. Let
+      $\mc B$ be a nonempty set, and let $V_{\mc B}$ be an element of
+      $\mc S$ with basis $\mc B$. Finally, let $\iota : \mc B \into
+      V_{\mc B}$. Then the pair $(V_{\mc B}, \iota)$ is universal.
+
+      Observe, this universal property is precisely what allows us to
+      uniquely determine a linear transformation by looking at its
+      values on the basis.
+    \end{example}
+  \end{leftbar}
+  Neat.
+  \begin{leftbar}\vspace{-1em}
+    \begin{example}[Quotients and projections]
+      Let $\mc V$ be a vector space, and let $\mc S$ be a subspace of
+      $\mc V$. Let $\mc F = \set{\tau \in \mc L(\mc V, \mc W) \MID
+        \mc W \in \mb{Vect}(\FF),\ \mc S \subseteq \ker(\tau)}$. Then
+      $(\mc{V/S},\ \pi)$ is a universal pair (where $\pi$ is the
+      canonical projection).
+    \end{example}
+  \end{leftbar}
+  It's possible to formulate the direct sum in terms of universal
+  properties as well. But we're more interested in how to create the
+  \emph{tensor} product by this manner. First, bilinear maps and
+  stuff.
+  \begin{definition}
+    Let $\mc{U,V,W}$ be vector spaces over $\FF$. Let $\mc{U \times
+      V}$ be the cartesian product of $\mc{U}$ and $\mc V$ as sets.
+    Then a function $f : \mc U \times \mc V$ is said to be
+    \textbf{bilinear} if it is linear in both variables separately. We
+    denote the set of bilinear maps by $\mrm{Bilin}(\mc U, \mc V; \mc
+    W)$.
+  \end{definition}
+  \begin{theorem}
+    Let $\mc V$ be a vector space. Suppose $f : \mc V \times \mc V \to
+    \mc W$ is both \emph{linear} and \emph{bilinear}. Then $f$ is the
+    zero map.
+  \end{theorem}
+  \begin{proof}
+    Let $u,v \in \mc V$. Then
+    \begin{align*}
+      f((u,v))
+      &= f((u,\mb 0_{\mc V})) + f((\mb 0_{\mc V}, v)) && (\text{linearity}) \\
+      &= f((u,0_\FF \cdot \mb 0_{\mc V})) + f((0_\FF \cdot \mb 0_{\mc
+        V}, v)) && \\
+      &= 0_\FF \cdot f((u,\mb 0_{\mc V})) + 0_\FF \cdot f((\mb 0_{\mc
+        V}, v)) && (\text{bilinearity})\\
+      &= \mb 0_{\mc W}
+    \end{align*}
+  \end{proof}
+  We will define the tensor product in terms of a universal pair.
+  \begin{definition}[Tensor Product]
+    Let $\mc H : \mb{Vect}(\FF) \to \mb{Set}$ be a functor with object
+    function given as follows: let $U, V$ be vector spaces over a
+    field $\FF$. Then for each $W \in \ob(\mb{Vect}(\FF))$, $\mc
+    H_o(W) = \mrm{Bilin}(U, V; W)$.
+
 
   \end{definition}
 
