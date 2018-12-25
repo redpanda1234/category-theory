@@ -117,8 +117,7 @@
   %	Subtitle
   % ------------------------------------------------
 
-  {\large (\normalfont Or: \itshape To All the Proofs I've Ever
-    Loved)}
+  {\large (\normalfont Or: \itshape To All the Proofs I've Loved Before)}
 
   \vspace*{12\baselineskip}
 
@@ -3054,14 +3053,88 @@ expect some nice properties to be conserved.
       &= \mb 0_{\mc W}
     \end{align*}
   \end{proof}
+  Let's give some more examples of bilinear maps (the final two are
+  from Roman; others are my own) to see if we can make more sense of
+  this.
+  \begin{enumerate}[label=\arabic*.]
+    \item ~\vspace{-1.25em}
+      \begin{leftbar}\vspace{-1em}
+        \begin{example}
+          Let $\mc V$ be an inner-product space over $\RR$. Then the
+          inner product $\ip{\cdot, \cdot}$ is a bilinear form on $\mc
+          V$ (that is, a bilinear map to $\RR$). This is pretty
+          trivial.
+        \end{example}
+      \end{leftbar}
+    \item ~\vspace{-1.25em}
+      \begin{leftbar}\vspace{-1em}
+        \begin{example}
+          On $\RR^3$, the cross product is a bilinear map. The
+          distributivity rule and commutativity of scalars verifies
+          this fact.
+        \end{example}
+      \end{leftbar}
+    \item~\vspace{-1.25em}
+      \begin{leftbar}\vspace{-1em}
+        \begin{example}
+          Let $A$ be an algebra over a field. Then the product map $\mu :
+          A \times A \to A$ defined by $\mu(a,b) = ab$ is bilinear. To see
+          this, simply note that scalars commute through (as desired), and
+          the distributive law guarantees the remaining portion of
+          bilinearity.
+
+          In particular, since matrices form an algebra over a field, this
+          shows that matrix multiplication is bilinear. Much less
+          interestingly, addition on an algebra is trivially bilinear.
+        \end{example}
+      \end{leftbar}
+    \item~\vspace{-1.25em}
+      \begin{leftbar}\vspace{-1em}
+        \begin{example}
+          Let $V,W$ be vector spaces. Then $\phi : \mc L(V,W) \times V
+          \to W$ defined by
+          \[
+            \phi(f,v) = f(v)
+          \]
+          is bilinear. To see this, first note that linearity on the
+          first entry follows trivially. On the second entry, apply
+          the definition of a linear to obtain $f(c(v_1 + v_2)) =
+          cf(v_1 + v_2) = c(f(v_1) + f(v_2))$, as desired. In
+          particular, the evaluation map $\phi : V^\star \times V \to
+          \FF$ is a bilinear form.
+        \end{example}
+      \end{leftbar}
+    \item~\vspace{-1.25em}
+      \begin{leftbar}\vspace{-1em}
+        \begin{example}
+          Combining the previous two examples, we see that if we let
+          $f \in V^\star$, $g \in W^\star$, then the map $\phi : V
+          \times W \to \FF$ defined by
+          \[
+            \phi(v,w) = f(v) g(w)
+          \]
+          is bilinear
+        \end{example}
+      \end{leftbar}
+  \end{enumerate}
+  Ultimately, our definition of the tensor product will serve to
+  generalize the last example above. Given $T \in \mc L(U,W)$ and $S
+  \in \mc L(V,W)$, we want some product map $\phi : U \times V \to W$
+  of the form
+  \[
+    \phi(u,v) = T(u)\ ?\ S(v)
+  \]
+  we will see that the tensor product is exactly what we want to fill
+  the $?$.
+
+
+
   We will define the tensor product in terms of a universal pair.
   \begin{definition}[Tensor Product]
     Let $\mc H : \mb{Vect}(\FF) \to \mb{Set}$ be a functor with object
     function given as follows: let $U, V$ be vector spaces over a
     field $\FF$. Then for each $W \in \ob(\mb{Vect}(\FF))$, $\mc
     H_o(W) = \mrm{Bilin}(U, V; W)$.
-
-
   \end{definition}
 
 \end{document}
