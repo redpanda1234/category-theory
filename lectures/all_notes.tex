@@ -1,6 +1,5 @@
 \documentclass{fkbook}
 
-\newcommand{\plogo}{\fbox{$\mathcal{FK}$}} % Generic dummy publisher logo
 % \usepackage{sout}
 \usepackage{tikz-cd}
 
@@ -35,7 +34,7 @@
 \mdtheorem[style=theoremstyle]{joke}{Joke}
 
 % \newcommand{\sign}{\ensuremath\mrm{sgn}}
-\DeclareMathOperator{\sgn}{sgn}
+% \DeclareMathOperator{\sgn}{sgn}
 
 \renewpagestyle{main}{
   \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
@@ -90,76 +89,72 @@
 % Homotopy equivalence
 
 
+\renewpagestyle{main}{
+  \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
+  \headrule
+  \setfoot{December 15th, 2018}{}{\thepage\ of \pageref{LastPage}}
+} % odd
+
+\usepackage{caption}
+
+\usepackage{scalerel}
+
+\renewcommand{\epsilon}{\lunateepsilon}
+% Homotopy equivalence
+
+\usepackage{boxedminipage}
+
+\newenvironment{problem}[1][Problem \thesection.]
+{\begin{boxedminipage}{\linewidth}\textbf{#1.}}
+{\end{boxedminipage}}
+
+\usepackage{wasysym}
+
 \begin{document}
 
 \pagestyle{plain}
 \frontmatter
-\begin{titlepage} % Suppresses headers and footers on the title page
 
-  \centering\scshape
+\fkauthor{Forest Kobayashi}
+\fktitle{Category Theory, Topology, and Knots}
+\fksubtitle{Some notes from my Independent Study}
+\fkalttitle{(Or: \itshape To All the Proofs I've Loved Before)}
+\fkaffiliation{{Department of Mathematics\\}{\itshape Harvey Mudd College\\}}
+\fksupervisor{Sam Nelson}
+\fksupervisoraffiliation{Department of Mathematics, Claremont McKenna College}
 
-  \rule{\textwidth}{1pt}\vspace*{-\baselineskip}\vspace*{2pt}
-  \rule{\textwidth}{0.4pt}
-
-  \vspace{0.75\baselineskip} % Whitespace above the title
-
-  {\LARGE Category Theory, Topology, and Knots\\}
-  {\Large Notes from my Independent Study\\}
-
-  \vspace{0.75\baselineskip} % Whitespace below the title
-
-  \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{2.4pt}
-  \rule{\textwidth}{1pt}
-
-  \vspace{\baselineskip} % Whitespace after the title block
-
-  % ------------------------------------------------
-  %	Subtitle
-  % ------------------------------------------------
-
-  {\large (\normalfont Or: \itshape To All the Proofs I've Loved Before)}
-
-  \vspace*{12\baselineskip}
-
-  % ------------------------------------------------
-  %	Authors
-  % ------------------------------------------------
-
-  {Written By\\}
-  {\Large Forest Kobayashi\\} % Author list
-  \vspace{2\baselineskip}
-  {Department of Mathematics\\}
-  {\itshape Harvey Mudd College\\} % affiliation
-
-  \vfill % Whitespace between editor names and publisher logo
-
-  % ------------------------------------------------
-  %	Publisher
-  % ------------------------------------------------
-
-  {\small Supervised By\\}
-  {Sam Nelson\footnote{Department of Mathematics, Claremont McKenna College}\\}
-  \vspace{4\baselineskip}
-
-  \plogo % Publisher logo
-
-  \vspace{0.3\baselineskip} % Whitespace under the publisher logo
-
-  {\large \normalfont \today} % Publication year
-
-  % {\large publisher} % Publisher
-
-\end{titlepage}
-
+\maketitlepage
 \tableofcontents
-
-% \chapter{Introduction}
-% This is a two-fold experiment
-
 \mainmatter
+\chapter{Introduction}
 \pagestyle{main}
-% \part{Get Rekt}
+\section*{Important Note!!!!!}
+These notes are \emph{not} polished, or even necessarily complete. I only
+decided to typeset my notes each week if I had spare time after doing readings,
+practice problems, and other general prep. They were mainly supposed to serve as
+a rough record for what I'd read about, and maybe offer me an opportunity to try
+and organize some of my thoughts / intuition. Unfinished sections might abound!
 
+\section*{What is this?}
+This is a collection of some of the notes I took over the course of my
+Independent Study. The format of the course was something like this: each week,
+I'd read a few chapters from some subset of $\{$Categories for the Working
+Mathematician (MacLane), A First Course in Algebraic Topology (Kosniowski),
+Analysis on Manifolds (Munkres), Quandles: An Introduction to the Algebra of
+Knots (Nelson)$\}$. Then, on Fridays, I'd meet with my faculty supervisor (Sam
+Nelson) and attempt to give an informal ``lecture'' on the material I'd read
+about during the week. I selected this format for the following reasons:
+\begin{enumerate}
+  \item I figured it would force me to develop my intuition to a point where I
+    felt like I could explain the concepts I was learning about
+  \item I thought it would also force me to really commit lots of the concepts
+    to memory, such that I could talk confidently about them without referencing
+    the books
+  \item Any amount of practice with math communication is good
+\end{enumerate}
+Most of which actually ended up panning out! Anyways, I might come back and
+re-do a lot of the stuff here at some point in the future, but for now, it's a
+bit rough around the edges.
 \chapter{Basic Category Theory}
 \section{Introduction}
 Often in mathematics, we are interested in considering collections of
@@ -1678,7 +1673,7 @@ h\circ g$, call $f$ idempotent.
   not $T_{i > j}$.
   \begin{enumerate}[label=($X_\arabic*)$:]
     \item[($X_0$):] Let $X_0 = (\RR^{\geq 0}, \tau)$, where $\tau =
-      \set{\bkpn{0,t} \MID t \in \RR^{\geq 0}}$. Note that $\tau$ is
+      \set{\bp{0,t} \MID t \in \RR^{\geq 0}}$. Note that $\tau$ is
       indeed a topology on $\RR^{\geq 0}$. Note $X_0$ is not $T_1$.
     \item Let $X_1 = (X, \tau)$ where
   \end{enumerate}
@@ -2449,7 +2444,7 @@ h\circ g$, call $f$ idempotent.
   \end{proof}
 \end{adjustwidth}
 
-\chapter{Homology and Cohomology}
+\chapter{Tensors}
 (This chapter based off Munkres' \emph{Analysis on Manifolds}, and
 Roman's \emph{Advanced Linear Algebra}). In the following chapter,
 we'll make some connections between algebraic topology (particularly,
