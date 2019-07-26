@@ -18,95 +18,20 @@
 
 \newtheorem{examplex}{Example}
 
-\newenvironment{example}
+\renewenvironment{example}
   {\pushQED{\oldqed}\renewcommand{\qedsymbol}{$\triangle$}\examplex}
   {\popQED\endexamplex}
 
 
-\renewcommand{\dom}{\mrm{dom}}
-\renewcommand{\cod}{\mrm{cod}}
-
-% \newcommand{\ob}{\mrm{ob}}
-% \newcommand{\homm}{\mrm{hom}}
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
 
 \mdtheorem[style=theoremstyle]{joke}{Joke}
-
-% \newcommand{\sign}{\ensuremath\mrm{sgn}}
-% \DeclareMathOperator{\sgn}{sgn}
-
-\renewpagestyle{main}{
-  \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
-  \headrule
-  \setfoot{Last Updated \today}{}{\thepage\ of \pageref{LastPage}}
-} % odd
-
-\usetikzlibrary{
-  knots,
-  hobby,
-  decorations.pathreplacing,
-  shapes.geometric,
-  calc
-}
-
-\tikzset{
-  knot diagram/every strand/.append style={
-    ultra thick,
-    blue
-  },
-  show curve controls/.style={
-    postaction=decorate,
-    decoration={show path construction,
-      curveto code={
-        \draw [blue, dashed]
-        (\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
-        node [at end, draw, solid, blue, inner sep=2pt]{};
-        \draw [blue, dashed]
-        (\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast)
-        node [at start, draw, solid, blue, inner sep=2pt]{}
-        node [at end, fill, blue, ellipse, inner sep=2pt]{}
-        ;
-      }
-    }
-  },
-  show curve endpoints/.style={
-    postaction=decorate,
-    decoration={show path construction,
-      curveto code={
-        \node [fill, red, ellipse, inner sep=2pt] at (\tikzinputsegmentlast) {}
-        ;
-      }
-    }
-  }
-}
-
-\usepackage{caption}
-
-\usepackage{scalerel}
-
-\renewcommand{\epsilon}{\lunateepsilon}
-% Homotopy equivalence
-
-
 \renewpagestyle{main}{
   \sethead{Forest Kobayashi}{\scshape\chaptertitle}{Independent Study Notes}
   \headrule
   \setfoot{December 15th, 2018}{}{\thepage\ of \pageref{LastPage}}
 } % odd
-
-\usepackage{caption}
-
-\usepackage{scalerel}
-
-\renewcommand{\epsilon}{\lunateepsilon}
-% Homotopy equivalence
-
-\usepackage{boxedminipage}
-
-\newenvironment{problem}[1][Problem \thesection.]
-{\begin{boxedminipage}{\linewidth}\textbf{#1.}}
-{\end{boxedminipage}}
 
 \usepackage{wasysym}
 
