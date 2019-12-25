@@ -35,6 +35,46 @@
 
 \usepackage{wasysym}
 
+\usepackage{tikz}
+\usetikzlibrary{
+  knots,
+  hobby,
+  decorations.pathreplacing,
+  shapes.geometric,
+  calc
+}
+
+\tikzset{
+  knot diagram/every strand/.append style={
+    ultra thick,
+    blue
+  },
+  show curve controls/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \draw [blue, dashed]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentsupporta)
+        node [at end, draw, solid, blue, inner sep=2pt]{};
+        \draw [blue, dashed]
+        (\tikzinputsegmentsupportb) -- (\tikzinputsegmentlast)
+        node [at start, draw, solid, blue, inner sep=2pt]{}
+        node [at end, fill, blue, ellipse, inner sep=2pt]{}
+        ;
+      }
+    }
+  },
+  show curve endpoints/.style={
+    postaction=decorate,
+    decoration={show path construction,
+      curveto code={
+        \node [fill, red, ellipse, inner sep=2pt] at (\tikzinputsegmentlast) {}
+        ;
+      }
+    }
+  }
+}
+
 \begin{document}
 
 \pagestyle{plain}
